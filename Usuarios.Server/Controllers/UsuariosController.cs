@@ -30,19 +30,20 @@ namespace Usuarios.Server.Controllers
 
             return Ok("Se guardo exitosamente," + usuario.Email);
         }
+
         [HttpGet]
-        [Route("AutenticacionRegistrar")]
-        public async Task<ActionResult> AutenticacionRegistrar(string email)
+        [Route("AutenticacionDeExistencia")]
+        public async Task<ActionResult> AutenticacionDeExistencia(string email)
         {
             Usuario usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
 
-            if (usuario == null)
+            if (usuario != null)
             {
-                return NotFound("El correo electronico proporcionado no esta registrado.");
+                return Ok("El correo electronico ya existe ");
             }
             else
             {
-                return Ok(usuario);
+                return NotFound("El correo electronico NO esta registrado.");
             }
         }
 
