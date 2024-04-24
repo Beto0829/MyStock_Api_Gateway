@@ -49,6 +49,9 @@ namespace Inventario.Server
 
             app.MapControllers();
 
+            //DOCKER MIGRACION BD
+            //MigrateDbContextExtensions.InitializeDatabase(app);
+
             app.Run();
         }
     }
