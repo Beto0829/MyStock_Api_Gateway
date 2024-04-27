@@ -122,7 +122,6 @@ namespace Inventarios.Server.Controllers
                             p.PrecioVenta,
                             p.Nota,
                             FechaEntrada = p.FechaEntrada.ToString("dd/MM/yy HH:mm")
-                            //p.FechaEntrada
                         })
                 .ToListAsync();
 
