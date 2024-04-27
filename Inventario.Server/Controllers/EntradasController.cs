@@ -99,6 +99,25 @@ namespace Inventarios.Server.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("Filtrar/IdCategoria")]
+        public async Task<ActionResult<List<Entrada>>> FiltarPorIdCategoria(int idCategoria)
+        {
+            var entradas = await _context.Entradas
+                .Where(p => p.IdCategoria == idCategoria)
+                .ToListAsync();
+
+            if (entradas == null || entradas.Count == 0)
+            {
+                return NotFound("No se encontraron notas para la categoría especificada.");
+            }
+            else
+            {
+
+                return Ok(entradas);
+            }
+        }
+
         [HttpPut]
         [Route("SumarExistencias")]
         public async Task<IActionResult> SumarExistencias(int id, int nuevaExistencia)
