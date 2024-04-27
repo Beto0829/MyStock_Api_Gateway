@@ -105,6 +105,25 @@ namespace Inventarios.Server.Controllers
         {
             var entradas = await _context.Entradas
                 .Where(p => p.IdCategoria == idCategoria)
+                        .Include(c => c.Categoria)
+                        .Include(c => c.Producto)
+                        .Include(c => c.proveedor)
+                        .Select(p => new {
+                            p.Id,
+                            p.IdCategoria,
+                            NombreCategoria = p.Categoria.Nombre,
+                            p.IdProducto,
+                            NombreProducto = p.Producto.Nombre,
+                            p.IdProveedor,
+                            NombreProveedor = p.proveedor.Nombre,
+                            p.ExistenciaInicial,
+                            p.ExistenciaActual,
+                            p.PrecioCompra,
+                            p.PrecioVenta,
+                            p.Nota,
+                            FechaEntrada = p.FechaEntrada.ToString("dd/MM/yy HH:mm")
+                            //p.FechaEntrada
+                        })
                 .ToListAsync();
 
             if (entradas == null || entradas.Count == 0)
