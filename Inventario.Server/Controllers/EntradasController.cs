@@ -127,7 +127,44 @@ namespace Inventarios.Server.Controllers
 
             if (entradas == null || entradas.Count == 0)
             {
-                return NotFound("No se encontraron notas para la categoría especificada.");
+                return NotFound("No se encontraron existencias para la categoría especificada.");
+            }
+            else
+            {
+
+                return Ok(entradas);
+            }
+        }
+
+        [HttpGet]
+        [Route("Filtrar/IdProductos")]
+        public async Task<ActionResult<List<Entrada>>> FiltarPorIdProductos(int idProductos)
+        {
+            var entradas = await _context.Entradas
+                .Where(p => p.IdProducto == idProductos)
+                        .Include(c => c.Categoria)
+                        .Include(c => c.Producto)
+                        .Include(c => c.proveedor)
+                        .Select(p => new {
+                            p.Id,
+                            p.IdCategoria,
+                            NombreCategoria = p.Categoria.Nombre,
+                            p.IdProducto,
+                            NombreProducto = p.Producto.Nombre,
+                            p.IdProveedor,
+                            NombreProveedor = p.proveedor.Nombre,
+                            p.ExistenciaInicial,
+                            p.ExistenciaActual,
+                            p.PrecioCompra,
+                            p.PrecioVenta,
+                            p.Nota,
+                            FechaEntrada = p.FechaEntrada.ToString("dd/MM/yy HH:mm")
+                        })
+                .ToListAsync();
+
+            if (entradas == null || entradas.Count == 0)
+            {
+                return NotFound("No se encontraron existencias para el productos especificado.");
             }
             else
             {
