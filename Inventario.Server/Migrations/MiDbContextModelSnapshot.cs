@@ -179,7 +179,7 @@ namespace Inventarios.Server.Migrations
                             Id = 1,
                             ExistenciaActual = 30,
                             ExistenciaInicial = 50,
-                            FechaEntrada = new DateTime(2024, 4, 22, 13, 59, 20, 139, DateTimeKind.Local).AddTicks(9356),
+                            FechaEntrada = new DateTime(2024, 4, 28, 23, 21, 18, 374, DateTimeKind.Local).AddTicks(9365),
                             IdCategoria = 3,
                             IdProducto = 3,
                             IdProveedor = 3,
@@ -192,7 +192,7 @@ namespace Inventarios.Server.Migrations
                             Id = 2,
                             ExistenciaActual = 80,
                             ExistenciaInicial = 200,
-                            FechaEntrada = new DateTime(2024, 4, 22, 13, 59, 20, 139, DateTimeKind.Local).AddTicks(9395),
+                            FechaEntrada = new DateTime(2024, 4, 28, 23, 21, 18, 374, DateTimeKind.Local).AddTicks(9417),
                             IdCategoria = 5,
                             IdProducto = 7,
                             IdProveedor = 1,
@@ -205,7 +205,7 @@ namespace Inventarios.Server.Migrations
                             Id = 3,
                             ExistenciaActual = 40,
                             ExistenciaInicial = 60,
-                            FechaEntrada = new DateTime(2024, 4, 22, 13, 59, 20, 139, DateTimeKind.Local).AddTicks(9417),
+                            FechaEntrada = new DateTime(2024, 4, 28, 23, 21, 18, 374, DateTimeKind.Local).AddTicks(9446),
                             IdCategoria = 2,
                             IdProducto = 8,
                             IdProveedor = 4,
@@ -332,6 +332,9 @@ namespace Inventarios.Server.Migrations
                     b.Property<int>("IdCategoria")
                         .HasColumnType("int");
 
+                    b.Property<int>("IdEntrada")
+                        .HasColumnType("int");
+
                     b.Property<int>("IdProducto")
                         .HasColumnType("int");
 
@@ -351,6 +354,8 @@ namespace Inventarios.Server.Migrations
 
                     b.HasIndex("IdCategoria");
 
+                    b.HasIndex("IdEntrada");
+
                     b.HasIndex("IdProducto");
 
                     b.HasIndex("IdSalida");
@@ -364,6 +369,7 @@ namespace Inventarios.Server.Migrations
                             Cantidad = 5,
                             Descuento = 0m,
                             IdCategoria = 3,
+                            IdEntrada = 1,
                             IdProducto = 3,
                             IdSalida = 1,
                             Precio = 8000m,
@@ -376,6 +382,7 @@ namespace Inventarios.Server.Migrations
                             Cantidad = 100,
                             Descuento = 10m,
                             IdCategoria = 5,
+                            IdEntrada = 2,
                             IdProducto = 7,
                             IdSalida = 1,
                             Precio = 2600m,
@@ -388,6 +395,7 @@ namespace Inventarios.Server.Migrations
                             Cantidad = 20,
                             Descuento = 5m,
                             IdCategoria = 2,
+                            IdEntrada = 3,
                             IdProducto = 8,
                             IdSalida = 2,
                             Precio = 190000m,
@@ -400,6 +408,7 @@ namespace Inventarios.Server.Migrations
                             Cantidad = 15,
                             Descuento = 5m,
                             IdCategoria = 3,
+                            IdEntrada = 1,
                             IdProducto = 3,
                             IdSalida = 3,
                             Precio = 8000m,
@@ -412,6 +421,7 @@ namespace Inventarios.Server.Migrations
                             Cantidad = 20,
                             Descuento = 2m,
                             IdCategoria = 5,
+                            IdEntrada = 2,
                             IdProducto = 7,
                             IdSalida = 3,
                             Precio = 2600m,
@@ -521,7 +531,7 @@ namespace Inventarios.Server.Migrations
                         {
                             Id = 1,
                             CantidadProductos = 2,
-                            FechaFactura = new DateTime(2024, 4, 22, 13, 59, 0, 0, DateTimeKind.Unspecified),
+                            FechaFactura = new DateTime(2024, 4, 28, 23, 21, 0, 0, DateTimeKind.Unspecified),
                             IdCliente = 3,
                             TotalDescuento = 26000m,
                             TotalPagarConDescuento = 274000m,
@@ -531,7 +541,7 @@ namespace Inventarios.Server.Migrations
                         {
                             Id = 2,
                             CantidadProductos = 1,
-                            FechaFactura = new DateTime(2024, 4, 22, 13, 59, 0, 0, DateTimeKind.Unspecified),
+                            FechaFactura = new DateTime(2024, 4, 28, 23, 21, 0, 0, DateTimeKind.Unspecified),
                             IdCliente = 1,
                             TotalDescuento = 190000m,
                             TotalPagarConDescuento = 3610000m,
@@ -541,7 +551,7 @@ namespace Inventarios.Server.Migrations
                         {
                             Id = 3,
                             CantidadProductos = 2,
-                            FechaFactura = new DateTime(2024, 4, 22, 13, 59, 0, 0, DateTimeKind.Unspecified),
+                            FechaFactura = new DateTime(2024, 4, 28, 23, 21, 0, 0, DateTimeKind.Unspecified),
                             IdCliente = 2,
                             TotalDescuento = 7040m,
                             TotalPagarConDescuento = 164960m,
@@ -595,6 +605,12 @@ namespace Inventarios.Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Inventarios.Server.Models.Entrada", "Entrada")
+                        .WithMany("ProductoSalidas")
+                        .HasForeignKey("IdEntrada")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Inventarios.Server.Models.Producto", "Producto")
                         .WithMany("ProductoSalidas")
                         .HasForeignKey("IdProducto")
@@ -608,6 +624,8 @@ namespace Inventarios.Server.Migrations
                         .IsRequired();
 
                     b.Navigation("Categoria");
+
+                    b.Navigation("Entrada");
 
                     b.Navigation("Producto");
 
@@ -637,6 +655,11 @@ namespace Inventarios.Server.Migrations
             modelBuilder.Entity("Inventarios.Server.Models.Cliente", b =>
                 {
                     b.Navigation("Salidas");
+                });
+
+            modelBuilder.Entity("Inventarios.Server.Models.Entrada", b =>
+                {
+                    b.Navigation("ProductoSalidas");
                 });
 
             modelBuilder.Entity("Inventarios.Server.Models.Producto", b =>

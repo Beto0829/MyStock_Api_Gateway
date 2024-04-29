@@ -91,6 +91,12 @@ namespace Inventarios.Server.Models
               .HasForeignKey(ps => ps.IdProducto)
               .IsRequired();
 
+            modelBuilder.Entity<ProductoSalida>()
+             .HasOne(ps => ps.Entrada)
+             .WithMany(e => e.ProductoSalidas)
+             .HasForeignKey(ps => ps.IdEntrada)
+             .IsRequired();
+
 
 
             //Insertar datos cateoria
@@ -131,15 +137,15 @@ namespace Inventarios.Server.Models
             DateTime fechaHoraActual = DateTime.Now;
             //Insertar datos salida
             modelBuilder.Entity<Salida>().HasData(new Salida { Id = 1, FechaFactura = new DateTime(fechaHoraActual.Year, fechaHoraActual.Month, fechaHoraActual.Day, fechaHoraActual.Hour, fechaHoraActual.Minute, 0), IdCliente = 3, CantidadProductos = 2, TotalPagarConDescuento = 274000, TotalPagarSinDescuento = 300000, TotalDescuento = 26000 });
-            modelBuilder.Entity<ProductoSalida>().HasData(new ProductoSalida { Id = 1, IdSalida = 1, IdCategoria = 3, IdProducto = 3, Precio = 8000, Cantidad = 5, Descuento = 0, ValorDescuento = 0, Total = 40000 });
-            modelBuilder.Entity<ProductoSalida>().HasData(new ProductoSalida { Id = 2, IdSalida = 1, IdCategoria = 5, IdProducto = 7, Precio = 2600, Cantidad = 100, Descuento = 10, ValorDescuento = 26000, Total = 234000 });
+            modelBuilder.Entity<ProductoSalida>().HasData(new ProductoSalida { Id = 1, IdSalida = 1, IdCategoria = 3, IdProducto = 3, IdEntrada = 1, Precio = 8000, Cantidad = 5, Descuento = 0, ValorDescuento = 0, Total = 40000 });
+            modelBuilder.Entity<ProductoSalida>().HasData(new ProductoSalida { Id = 2, IdSalida = 1, IdCategoria = 5, IdProducto = 7, IdEntrada = 2, Precio = 2600, Cantidad = 100, Descuento = 10, ValorDescuento = 26000, Total = 234000 });
 
             modelBuilder.Entity<Salida>().HasData(new Salida { Id = 2, FechaFactura = new DateTime(fechaHoraActual.Year, fechaHoraActual.Month, fechaHoraActual.Day, fechaHoraActual.Hour, fechaHoraActual.Minute, 0), IdCliente = 1, CantidadProductos = 1, TotalPagarConDescuento = 3610000, TotalPagarSinDescuento = 3800000, TotalDescuento = 190000 });
-            modelBuilder.Entity<ProductoSalida>().HasData(new ProductoSalida { Id = 3, IdSalida = 2, IdCategoria = 2, IdProducto = 8, Precio = 190000, Cantidad = 20, Descuento = 5, ValorDescuento = 190000, Total = 3610000 });
+            modelBuilder.Entity<ProductoSalida>().HasData(new ProductoSalida { Id = 3, IdSalida = 2, IdCategoria = 2, IdProducto = 8, IdEntrada = 3, Precio = 190000, Cantidad = 20, Descuento = 5, ValorDescuento = 190000, Total = 3610000 });
 
             modelBuilder.Entity<Salida>().HasData(new Salida { Id = 3, FechaFactura = new DateTime(fechaHoraActual.Year, fechaHoraActual.Month, fechaHoraActual.Day, fechaHoraActual.Hour, fechaHoraActual.Minute, 0), IdCliente = 2, CantidadProductos = 2, TotalPagarConDescuento = 164960, TotalPagarSinDescuento = 172000, TotalDescuento = 7040 });
-            modelBuilder.Entity<ProductoSalida>().HasData(new ProductoSalida { Id = 4, IdSalida = 3, IdCategoria = 3, IdProducto = 3, Precio = 8000, Cantidad = 15, Descuento = 5, ValorDescuento = 6000, Total = 114000 });
-            modelBuilder.Entity<ProductoSalida>().HasData(new ProductoSalida { Id = 5, IdSalida = 3, IdCategoria = 5, IdProducto = 7, Precio = 2600, Cantidad = 20, Descuento = 2, ValorDescuento = 1040, Total = 50960 });
+            modelBuilder.Entity<ProductoSalida>().HasData(new ProductoSalida { Id = 4, IdSalida = 3, IdCategoria = 3, IdProducto = 3, IdEntrada= 1, Precio = 8000, Cantidad = 15, Descuento = 5, ValorDescuento = 6000, Total = 114000 });
+            modelBuilder.Entity<ProductoSalida>().HasData(new ProductoSalida { Id = 5, IdSalida = 3, IdCategoria = 5, IdProducto = 7, IdEntrada = 2, Precio = 2600, Cantidad = 20, Descuento = 2, ValorDescuento = 1040, Total = 50960 });
         }
     }
 }

@@ -14,6 +14,8 @@ namespace Inventarios.Server.Models
 
         public int IdProducto { get; set; }
 
+        public int IdEntrada { get; set; }
+
         [Column(TypeName = "decimal(18,2)")]
         public decimal Precio { get; set; }
 
@@ -36,5 +38,8 @@ namespace Inventarios.Server.Models
 
         [JsonIgnore]
         public Producto? Producto { get; set; }
+
+        [JsonIgnore]
+        public Entrada? Entrada { get; set; }
     }
 }

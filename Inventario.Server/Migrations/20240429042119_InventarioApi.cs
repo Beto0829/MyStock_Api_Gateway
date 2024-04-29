@@ -149,6 +149,7 @@ namespace Inventarios.Server.Migrations
                     IdSalida = table.Column<int>(type: "int", nullable: false),
                     IdCategoria = table.Column<int>(type: "int", nullable: false),
                     IdProducto = table.Column<int>(type: "int", nullable: false),
+                    IdEntrada = table.Column<int>(type: "int", nullable: false),
                     Precio = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Cantidad = table.Column<int>(type: "int", nullable: false),
                     Descuento = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -162,6 +163,12 @@ namespace Inventarios.Server.Migrations
                         name: "FK_ProductoSalidas_Categorias_IdCategoria",
                         column: x => x.IdCategoria,
                         principalTable: "Categorias",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.NoAction);
+                    table.ForeignKey(
+                        name: "FK_ProductoSalidas_Entradas_IdEntrada",
+                        column: x => x.IdEntrada,
+                        principalTable: "Entradas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
@@ -233,9 +240,9 @@ namespace Inventarios.Server.Migrations
                 columns: new[] { "Id", "CantidadProductos", "FechaFactura", "IdCliente", "TotalDescuento", "TotalPagarConDescuento", "TotalPagarSinDescuento" },
                 values: new object[,]
                 {
-                    { 1, 2, new DateTime(2024, 4, 22, 13, 59, 0, 0, DateTimeKind.Unspecified), 3, 26000m, 274000m, 300000m },
-                    { 2, 1, new DateTime(2024, 4, 22, 13, 59, 0, 0, DateTimeKind.Unspecified), 1, 190000m, 3610000m, 3800000m },
-                    { 3, 2, new DateTime(2024, 4, 22, 13, 59, 0, 0, DateTimeKind.Unspecified), 2, 7040m, 164960m, 172000m }
+                    { 1, 2, new DateTime(2024, 4, 28, 23, 21, 0, 0, DateTimeKind.Unspecified), 3, 26000m, 274000m, 300000m },
+                    { 2, 1, new DateTime(2024, 4, 28, 23, 21, 0, 0, DateTimeKind.Unspecified), 1, 190000m, 3610000m, 3800000m },
+                    { 3, 2, new DateTime(2024, 4, 28, 23, 21, 0, 0, DateTimeKind.Unspecified), 2, 7040m, 164960m, 172000m }
                 });
 
             migrationBuilder.InsertData(
@@ -243,21 +250,21 @@ namespace Inventarios.Server.Migrations
                 columns: new[] { "Id", "ExistenciaActual", "ExistenciaInicial", "FechaEntrada", "IdCategoria", "IdProducto", "IdProveedor", "Nota", "PrecioCompra", "PrecioVenta" },
                 values: new object[,]
                 {
-                    { 1, 30, 50, new DateTime(2024, 4, 22, 13, 59, 20, 139, DateTimeKind.Local).AddTicks(9356), 3, 3, 3, "Yogurt marca colanta sabores fresa y melocoton", 5800m, 8000m },
-                    { 2, 80, 200, new DateTime(2024, 4, 22, 13, 59, 20, 139, DateTimeKind.Local).AddTicks(9395), 5, 7, 1, "La idea es venderlas en maximo un mes", 1800m, 2600m },
-                    { 3, 40, 60, new DateTime(2024, 4, 22, 13, 59, 20, 139, DateTimeKind.Local).AddTicks(9417), 2, 8, 4, "Producto al cual sacarle mucho provecho por su precio de compra y de venta", 50000m, 190000m }
+                    { 1, 30, 50, new DateTime(2024, 4, 28, 23, 21, 18, 374, DateTimeKind.Local).AddTicks(9365), 3, 3, 3, "Yogurt marca colanta sabores fresa y melocoton", 5800m, 8000m },
+                    { 2, 80, 200, new DateTime(2024, 4, 28, 23, 21, 18, 374, DateTimeKind.Local).AddTicks(9417), 5, 7, 1, "La idea es venderlas en maximo un mes", 1800m, 2600m },
+                    { 3, 40, 60, new DateTime(2024, 4, 28, 23, 21, 18, 374, DateTimeKind.Local).AddTicks(9446), 2, 8, 4, "Producto al cual sacarle mucho provecho por su precio de compra y de venta", 50000m, 190000m }
                 });
 
             migrationBuilder.InsertData(
                 table: "ProductoSalidas",
-                columns: new[] { "Id", "Cantidad", "Descuento", "IdCategoria", "IdProducto", "IdSalida", "Precio", "Total", "ValorDescuento" },
+                columns: new[] { "Id", "Cantidad", "Descuento", "IdCategoria", "IdEntrada", "IdProducto", "IdSalida", "Precio", "Total", "ValorDescuento" },
                 values: new object[,]
                 {
-                    { 1, 5, 0m, 3, 3, 1, 8000m, 40000m, 0m },
-                    { 2, 100, 10m, 5, 7, 1, 2600m, 234000m, 26000m },
-                    { 3, 20, 5m, 2, 8, 2, 190000m, 3610000m, 190000m },
-                    { 4, 15, 5m, 3, 3, 3, 8000m, 114000m, 6000m },
-                    { 5, 20, 2m, 5, 7, 3, 2600m, 50960m, 1040m }
+                    { 1, 5, 0m, 3, 1, 3, 1, 8000m, 40000m, 0m },
+                    { 2, 100, 10m, 5, 2, 7, 1, 2600m, 234000m, 26000m },
+                    { 3, 20, 5m, 2, 3, 8, 2, 190000m, 3610000m, 190000m },
+                    { 4, 15, 5m, 3, 1, 3, 3, 8000m, 114000m, 6000m },
+                    { 5, 20, 2m, 5, 2, 7, 3, 2600m, 50960m, 1040m }
                 });
 
             migrationBuilder.CreateIndex(
@@ -304,6 +311,11 @@ namespace Inventarios.Server.Migrations
                 column: "IdCategoria");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductoSalidas_IdEntrada",
+                table: "ProductoSalidas",
+                column: "IdEntrada");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductoSalidas_IdProducto",
                 table: "ProductoSalidas",
                 column: "IdProducto");
@@ -335,25 +347,25 @@ namespace Inventarios.Server.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Entradas");
-
-            migrationBuilder.DropTable(
                 name: "ProductoSalidas");
 
             migrationBuilder.DropTable(
-                name: "Proveedors");
-
-            migrationBuilder.DropTable(
-                name: "Productos");
+                name: "Entradas");
 
             migrationBuilder.DropTable(
                 name: "Salidas");
 
             migrationBuilder.DropTable(
-                name: "Categorias");
+                name: "Productos");
+
+            migrationBuilder.DropTable(
+                name: "Proveedors");
 
             migrationBuilder.DropTable(
                 name: "Clientes");
+
+            migrationBuilder.DropTable(
+                name: "Categorias");
         }
     }
 }

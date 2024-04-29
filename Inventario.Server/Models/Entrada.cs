@@ -39,5 +39,9 @@ namespace Inventarios.Server.Models
 
         [JsonIgnore]
         public Proveedor? proveedor { get; set; }
+
+        [JsonIgnore]
+        public List<ProductoSalida>? ProductoSalidas { get; set; }
+    
     }
 }
