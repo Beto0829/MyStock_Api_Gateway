@@ -1,5 +1,4 @@
 ﻿using Inventarios.Server.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,35 +17,32 @@ namespace Inventarios.Server.Controllers
 
         [HttpPost]
         [Route("Agregar")]
-        public async Task<ActionResult<Salida>> AgregarSalida(Salida salida)
+        public async Task<IActionResult> AgregarSalida(Salida salida)
         {
-            try
+
+            DateTime fechaHoraActual = DateTime.Now;
+
+            salida.FechaFactura = new DateTime(fechaHoraActual.Year, fechaHoraActual.Month, fechaHoraActual.Day, fechaHoraActual.Hour, fechaHoraActual.Minute, 0);
+
+            _context.Salidas.Add(salida);
+            //await _context.SaveChangesAsync();
+
+            int nuevaSalidaId = salida.Id;
+
+            if (salida.ProductoSalidas != null && salida.ProductoSalidas.Any())
             {
-                DateTime fechaHoraActual = DateTime.Now;
-
-                salida.FechaFactura = new DateTime(fechaHoraActual.Year, fechaHoraActual.Month, fechaHoraActual.Day, fechaHoraActual.Hour, fechaHoraActual.Minute, 0);
-
-                _context.Salidas.Add(salida);
-                await _context.SaveChangesAsync();
-
-                int nuevaSalidaId = salida.Id;
-
-                if (salida.ProductoSalidas != null && salida.ProductoSalidas.Any())
+                foreach (var productoSalida in salida.ProductoSalidas)
                 {
-                    foreach (var productoSalida in salida.ProductoSalidas)
-                    {
-                        productoSalida.IdSalida = nuevaSalidaId;
-                        _context.ProductoSalidas.Add(productoSalida);
-                    }
-                    await _context.SaveChangesAsync();
+                    productoSalida.IdSalida = nuevaSalidaId;
+                    _context.ProductoSalidas.Add(productoSalida);
                 }
+                //await _context.SaveChangesAsync();
+            }
 
-                return Ok(salida);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error al agregar la salida: " + ex.Message);
-            }
+            await _context.SaveChangesAsync();
+
+            return Ok("Se guardó exitosamente");
+            //return Ok(salida);
         }
 
         [HttpGet]
