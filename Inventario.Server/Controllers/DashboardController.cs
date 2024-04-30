@@ -245,5 +245,72 @@ namespace Inventarios.Server.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error al calcular el beneficio neto: " + ex.Message);
             }
         }
+
+        [HttpGet("Grafica/ConsultarClienteSalidas")]
+        public async Task<ActionResult<IEnumerable<ClienteSalidas>>> ConsultarClienteSalida()
+        {
+            var salidasClientes = await _context.Salidas
+                .GroupBy(s => s.IdCliente)
+                .Select(g => new ClienteSalidas
+                {
+                    IdCliente = g.Key,
+                    CantidadSalidas = g.Count()
+                })
+                .ToListAsync();
+
+            foreach (var clienteSalidaCount in salidasClientes)
+            {
+                var cliente = await _context.Clientes
+                    .Where(c => c.Id == clienteSalidaCount.IdCliente)
+                    .FirstOrDefaultAsync();
+
+                if (cliente != null)
+                {
+                    clienteSalidaCount.NombreCliente = cliente.Nombre;
+                }
+            }
+
+            return salidasClientes;
+        }
+
+        [HttpGet("Grafica/ConsultarCategoriaProductos")]
+        public async Task<ActionResult<IEnumerable<CategoriaProductos>>> ConsultarCategoriaProductos()
+        {
+            var productosCategorias = await _context.Productos
+                .GroupBy(p => p.IdCategoria)
+                .Select(g => new CategoriaProductos
+                {
+                    IdCategoria = g.Key,
+                    CantidadProductos = g.Count()
+                })
+                .ToListAsync();
+
+            foreach (var categoriaProductosCount in productosCategorias)
+            {
+                var categoria = await _context.Categorias
+                    .Where(c => c.Id == categoriaProductosCount.IdCategoria)
+                    .FirstOrDefaultAsync();
+
+                if (categoria != null)
+                {
+                    categoriaProductosCount.NombreCategoria = categoria.Nombre;
+                }
+            }
+
+            return productosCategorias;
+        }
+    }
+    public class ClienteSalidas
+    {
+        public int IdCliente { get; set; }
+        public string ? NombreCliente { get; set; }
+        public int CantidadSalidas { get; set; }
+    }
+
+    public class CategoriaProductos
+    {
+        public int IdCategoria { get; set; }
+        public string NombreCategoria { get; set; }
+        public int CantidadProductos { get; set; }
     }
 }

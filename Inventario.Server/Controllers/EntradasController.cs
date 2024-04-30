@@ -16,24 +16,6 @@ namespace Inventarios.Server.Controllers
             _context = context;
         }
 
-        //[HttpPost]
-        //[Route("Agregarviejo")]
-        //public async Task<IActionResult> Agregar(Entrada entrada)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    entrada.ExistenciaActual = entrada.ExistenciaInicial;
-        //    entrada.FechaEntrada = DateTime.Now;
-
-        //    await _context.Entradas.AddAsync(entrada);
-        //    await _context.SaveChangesAsync();
-
-        //    return Ok("Se guardó exitosamente");
-        //}
-
         [HttpPost]
         [Route("Agregar")]
         public async Task<IActionResult> Agregar(EntradaDTO entradaDTO)
@@ -53,7 +35,8 @@ namespace Inventarios.Server.Controllers
                 ExistenciaInicial = entradaDTO.ExistenciaInicial,
                 Nota = entradaDTO.Nota,
                 ExistenciaActual = entradaDTO.ExistenciaInicial,
-                FechaEntrada = DateTime.Now
+                FechaEntrada = DateTime.Now,
+                Estado = "Activo"
             };
 
             await _context.Entradas.AddAsync(entrada);
@@ -84,8 +67,8 @@ namespace Inventarios.Server.Controllers
                             p.PrecioCompra,
                             p.PrecioVenta,
                             p.Nota,
-                            FechaEntrada = p.FechaEntrada.ToString("dd/MM/yy HH:mm")
-                            //p.FechaEntrada
+                            FechaEntrada = p.FechaEntrada.ToString("dd/MM/yy HH:mm"),
+                            p.Estado
                         })
                         .ToListAsync();
 
@@ -121,7 +104,8 @@ namespace Inventarios.Server.Controllers
                             p.PrecioCompra,
                             p.PrecioVenta,
                             p.Nota,
-                            FechaEntrada = p.FechaEntrada.ToString("dd/MM/yy HH:mm")
+                            FechaEntrada = p.FechaEntrada.ToString("dd/MM/yy HH:mm"),
+                            p.Estado
                         })
                 .ToListAsync();
 
@@ -158,7 +142,8 @@ namespace Inventarios.Server.Controllers
                             p.PrecioCompra,
                             p.PrecioVenta,
                             p.Nota,
-                            FechaEntrada = p.FechaEntrada.ToString("dd/MM/yy HH:mm")
+                            FechaEntrada = p.FechaEntrada.ToString("dd/MM/yy HH:mm"),
+                            p.Estado
                         })
                 .ToListAsync();
 
@@ -170,6 +155,60 @@ namespace Inventarios.Server.Controllers
             {
 
                 return Ok(entradas);
+            }
+        }
+
+
+        [HttpPut]
+        [Route("Actualizar")]
+        public async Task<IActionResult> Actualizar(int id, EntradaDTO entradaDTO)
+        {
+            var entradaExistente = await _context.Entradas.FindAsync(id);
+
+            if (entradaDTO == null)
+            {
+                return NotFound("No existes el dato que buscas");
+            }
+            else
+            {
+                entradaExistente!.IdCategoria = entradaDTO.IdCategoria;
+                entradaExistente!.IdProducto = entradaDTO.IdProducto;
+                entradaExistente!.IdProveedor = entradaDTO.IdProveedor;
+                entradaExistente!.PrecioCompra = entradaDTO.PrecioCompra;
+                entradaExistente!.PrecioVenta = entradaDTO.PrecioVenta;
+                entradaExistente!.ExistenciaInicial = entradaExistente.ExistenciaInicial;
+                entradaExistente!.Nota = entradaDTO.Nota;
+
+                await _context.SaveChangesAsync();
+
+                return Ok("Se actualizo exitosamente");
+            }
+        }
+
+        [HttpPut]
+        [Route("ActualizarEstado")]
+        public async Task<IActionResult> ActualizarEstadoEntradas()
+        {
+            var entradas = await _context.Entradas.ToListAsync();
+            bool algunaEntradaActualizada = false;
+
+            foreach (var entrada in entradas)
+            {
+                if (entrada.ExistenciaActual == 0 && entrada.Estado != "Inactivo")
+                {
+                    entrada.Estado = "Inactivo";
+                    algunaEntradaActualizada = true;
+                }
+            }
+
+            if (algunaEntradaActualizada)
+            {
+                await _context.SaveChangesAsync();
+                return Ok("Se actualizaron las entradas sin existencias");
+            }
+            else
+            {
+                return Ok("NO se encontro entradas con existencias en cero");
             }
         }
 
@@ -208,32 +247,6 @@ namespace Inventarios.Server.Controllers
                 await _context.SaveChangesAsync();
 
                 return Ok("Se quito una cantidad de " + quitarExistencia + " a la entrada: " + entradaExistente.Id + ", exitosamente.");
-            }
-        }
-
-        [HttpPut]
-        [Route("Actualizar")]
-        public async Task<IActionResult> Actualizar(int id, EntradaDTO entradaDTO)
-        {
-            var entradaExistente = await _context.Entradas.FindAsync(id);
-
-            if (entradaDTO == null)
-            {
-                return NotFound("No existes el dato que buscas");
-            }
-            else
-            {
-                entradaExistente!.IdCategoria = entradaDTO.IdCategoria;
-                entradaExistente!.IdProducto = entradaDTO.IdProducto;
-                entradaExistente!.IdProveedor = entradaDTO.IdProveedor;
-                entradaExistente!.PrecioCompra = entradaDTO.PrecioCompra;
-                entradaExistente!.PrecioVenta = entradaDTO.PrecioVenta;
-                entradaExistente!.ExistenciaInicial = entradaExistente.ExistenciaInicial;
-                entradaExistente!.Nota = entradaDTO.Nota;
-
-                await _context.SaveChangesAsync();
-
-                return Ok("Se actualizo exitosamente");
             }
         }
 

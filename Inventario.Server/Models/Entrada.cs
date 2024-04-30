@@ -29,6 +29,8 @@ namespace Inventarios.Server.Models
         [MaxLength(999, ErrorMessage = "El campo {0} debe tener maximo {1} caracteres.")]
         public string? Nota { get; set; }
 
+        public string? Estado { get; set; }
+
         public DateTime FechaEntrada { get; set; }
 
         [JsonIgnore]

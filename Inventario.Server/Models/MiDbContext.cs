@@ -130,9 +130,9 @@ namespace Inventarios.Server.Models
             modelBuilder.Entity<Producto>().HasData(new Producto { Id = 10, Nombre = "huevos criollos", Descripcion = "Huevos 100% de campo", IdCategoria = 1 });
 
             //Insertar datos entrada
-            modelBuilder.Entity<Entrada>().HasData(new Entrada { Id = 1, IdCategoria = 3, IdProducto = 3, IdProveedor = 3, PrecioCompra = 5800, PrecioVenta = 8000, ExistenciaInicial = 50, ExistenciaActual = 30, Nota = "Yogurt marca colanta sabores fresa y melocoton", FechaEntrada = DateTime.Now });
-            modelBuilder.Entity<Entrada>().HasData(new Entrada { Id = 2, IdCategoria = 5, IdProducto = 7, IdProveedor = 1, PrecioCompra = 1800, PrecioVenta = 2600, ExistenciaInicial = 200, ExistenciaActual = 80, Nota = "La idea es venderlas en maximo un mes", FechaEntrada = DateTime.Now });
-            modelBuilder.Entity<Entrada>().HasData(new Entrada { Id = 3, IdCategoria = 2, IdProducto = 8, IdProveedor = 4, PrecioCompra = 50000, PrecioVenta = 190000, ExistenciaInicial = 60, ExistenciaActual = 40, Nota = "Producto al cual sacarle mucho provecho por su precio de compra y de venta", FechaEntrada = DateTime.Now });
+            modelBuilder.Entity<Entrada>().HasData(new Entrada { Id = 1, IdCategoria = 3, IdProducto = 3, IdProveedor = 3, PrecioCompra = 5800, PrecioVenta = 8000, ExistenciaInicial = 50, ExistenciaActual = 30, Nota = "Yogurt marca colanta sabores fresa y melocoton", FechaEntrada = DateTime.Now, Estado = "Activo" });
+            modelBuilder.Entity<Entrada>().HasData(new Entrada { Id = 2, IdCategoria = 5, IdProducto = 7, IdProveedor = 1, PrecioCompra = 1800, PrecioVenta = 2600, ExistenciaInicial = 200, ExistenciaActual = 80, Nota = "La idea es venderlas en maximo un mes", FechaEntrada = DateTime.Now, Estado = "Activo" });
+            modelBuilder.Entity<Entrada>().HasData(new Entrada { Id = 3, IdCategoria = 2, IdProducto = 8, IdProveedor = 4, PrecioCompra = 50000, PrecioVenta = 190000, ExistenciaInicial = 60, ExistenciaActual = 40, Nota = "Producto al cual sacarle mucho provecho por su precio de compra y de venta", FechaEntrada = DateTime.Now, Estado = "Activo" });
 
             DateTime fechaHoraActual = DateTime.Now;
             //Insertar datos salida

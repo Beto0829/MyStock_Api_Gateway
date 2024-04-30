@@ -135,6 +135,9 @@ namespace Inventarios.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Estado")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("ExistenciaActual")
                         .HasColumnType("int");
 
@@ -177,9 +180,10 @@ namespace Inventarios.Server.Migrations
                         new
                         {
                             Id = 1,
+                            Estado = "Activo",
                             ExistenciaActual = 30,
                             ExistenciaInicial = 50,
-                            FechaEntrada = new DateTime(2024, 4, 28, 23, 21, 18, 374, DateTimeKind.Local).AddTicks(9365),
+                            FechaEntrada = new DateTime(2024, 4, 30, 16, 53, 11, 841, DateTimeKind.Local).AddTicks(8017),
                             IdCategoria = 3,
                             IdProducto = 3,
                             IdProveedor = 3,
@@ -190,9 +194,10 @@ namespace Inventarios.Server.Migrations
                         new
                         {
                             Id = 2,
+                            Estado = "Activo",
                             ExistenciaActual = 80,
                             ExistenciaInicial = 200,
-                            FechaEntrada = new DateTime(2024, 4, 28, 23, 21, 18, 374, DateTimeKind.Local).AddTicks(9417),
+                            FechaEntrada = new DateTime(2024, 4, 30, 16, 53, 11, 841, DateTimeKind.Local).AddTicks(8067),
                             IdCategoria = 5,
                             IdProducto = 7,
                             IdProveedor = 1,
@@ -203,9 +208,10 @@ namespace Inventarios.Server.Migrations
                         new
                         {
                             Id = 3,
+                            Estado = "Activo",
                             ExistenciaActual = 40,
                             ExistenciaInicial = 60,
-                            FechaEntrada = new DateTime(2024, 4, 28, 23, 21, 18, 374, DateTimeKind.Local).AddTicks(9446),
+                            FechaEntrada = new DateTime(2024, 4, 30, 16, 53, 11, 841, DateTimeKind.Local).AddTicks(8104),
                             IdCategoria = 2,
                             IdProducto = 8,
                             IdProveedor = 4,
@@ -531,7 +537,7 @@ namespace Inventarios.Server.Migrations
                         {
                             Id = 1,
                             CantidadProductos = 2,
-                            FechaFactura = new DateTime(2024, 4, 28, 23, 21, 0, 0, DateTimeKind.Unspecified),
+                            FechaFactura = new DateTime(2024, 4, 30, 16, 53, 0, 0, DateTimeKind.Unspecified),
                             IdCliente = 3,
                             TotalDescuento = 26000m,
                             TotalPagarConDescuento = 274000m,
@@ -541,7 +547,7 @@ namespace Inventarios.Server.Migrations
                         {
                             Id = 2,
                             CantidadProductos = 1,
-                            FechaFactura = new DateTime(2024, 4, 28, 23, 21, 0, 0, DateTimeKind.Unspecified),
+                            FechaFactura = new DateTime(2024, 4, 30, 16, 53, 0, 0, DateTimeKind.Unspecified),
                             IdCliente = 1,
                             TotalDescuento = 190000m,
                             TotalPagarConDescuento = 3610000m,
@@ -551,7 +557,7 @@ namespace Inventarios.Server.Migrations
                         {
                             Id = 3,
                             CantidadProductos = 2,
-                            FechaFactura = new DateTime(2024, 4, 28, 23, 21, 0, 0, DateTimeKind.Unspecified),
+                            FechaFactura = new DateTime(2024, 4, 30, 16, 53, 0, 0, DateTimeKind.Unspecified),
                             IdCliente = 2,
                             TotalDescuento = 7040m,
                             TotalPagarConDescuento = 164960m,

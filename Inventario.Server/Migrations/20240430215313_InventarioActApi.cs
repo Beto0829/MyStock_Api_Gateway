@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Inventarios.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class InventarioApi : Migration
+    public partial class InventarioActApi : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -115,6 +115,7 @@ namespace Inventarios.Server.Migrations
                     ExistenciaInicial = table.Column<int>(type: "int", nullable: false),
                     ExistenciaActual = table.Column<int>(type: "int", nullable: false),
                     Nota = table.Column<string>(type: "nvarchar(999)", maxLength: 999, nullable: true),
+                    Estado = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FechaEntrada = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -240,19 +241,19 @@ namespace Inventarios.Server.Migrations
                 columns: new[] { "Id", "CantidadProductos", "FechaFactura", "IdCliente", "TotalDescuento", "TotalPagarConDescuento", "TotalPagarSinDescuento" },
                 values: new object[,]
                 {
-                    { 1, 2, new DateTime(2024, 4, 28, 23, 21, 0, 0, DateTimeKind.Unspecified), 3, 26000m, 274000m, 300000m },
-                    { 2, 1, new DateTime(2024, 4, 28, 23, 21, 0, 0, DateTimeKind.Unspecified), 1, 190000m, 3610000m, 3800000m },
-                    { 3, 2, new DateTime(2024, 4, 28, 23, 21, 0, 0, DateTimeKind.Unspecified), 2, 7040m, 164960m, 172000m }
+                    { 1, 2, new DateTime(2024, 4, 30, 16, 53, 0, 0, DateTimeKind.Unspecified), 3, 26000m, 274000m, 300000m },
+                    { 2, 1, new DateTime(2024, 4, 30, 16, 53, 0, 0, DateTimeKind.Unspecified), 1, 190000m, 3610000m, 3800000m },
+                    { 3, 2, new DateTime(2024, 4, 30, 16, 53, 0, 0, DateTimeKind.Unspecified), 2, 7040m, 164960m, 172000m }
                 });
 
             migrationBuilder.InsertData(
                 table: "Entradas",
-                columns: new[] { "Id", "ExistenciaActual", "ExistenciaInicial", "FechaEntrada", "IdCategoria", "IdProducto", "IdProveedor", "Nota", "PrecioCompra", "PrecioVenta" },
+                columns: new[] { "Id", "Estado", "ExistenciaActual", "ExistenciaInicial", "FechaEntrada", "IdCategoria", "IdProducto", "IdProveedor", "Nota", "PrecioCompra", "PrecioVenta" },
                 values: new object[,]
                 {
-                    { 1, 30, 50, new DateTime(2024, 4, 28, 23, 21, 18, 374, DateTimeKind.Local).AddTicks(9365), 3, 3, 3, "Yogurt marca colanta sabores fresa y melocoton", 5800m, 8000m },
-                    { 2, 80, 200, new DateTime(2024, 4, 28, 23, 21, 18, 374, DateTimeKind.Local).AddTicks(9417), 5, 7, 1, "La idea es venderlas en maximo un mes", 1800m, 2600m },
-                    { 3, 40, 60, new DateTime(2024, 4, 28, 23, 21, 18, 374, DateTimeKind.Local).AddTicks(9446), 2, 8, 4, "Producto al cual sacarle mucho provecho por su precio de compra y de venta", 50000m, 190000m }
+                    { 1, "Activo", 30, 50, new DateTime(2024, 4, 30, 16, 53, 11, 841, DateTimeKind.Local).AddTicks(8017), 3, 3, 3, "Yogurt marca colanta sabores fresa y melocoton", 5800m, 8000m },
+                    { 2, "Activo", 80, 200, new DateTime(2024, 4, 30, 16, 53, 11, 841, DateTimeKind.Local).AddTicks(8067), 5, 7, 1, "La idea es venderlas en maximo un mes", 1800m, 2600m },
+                    { 3, "Activo", 40, 60, new DateTime(2024, 4, 30, 16, 53, 11, 841, DateTimeKind.Local).AddTicks(8104), 2, 8, 4, "Producto al cual sacarle mucho provecho por su precio de compra y de venta", 50000m, 190000m }
                 });
 
             migrationBuilder.InsertData(
