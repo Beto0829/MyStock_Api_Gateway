@@ -14,6 +14,7 @@ namespace Inventarios.Server.Models
         public DbSet<Entrada> Entradas { get; set; }
         public DbSet<ProductoSalida> ProductoSalidas { get; set; }
         public DbSet<Salida> Salidas { get; set; }
+        public DbSet<Reporte> Reportes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -144,8 +145,13 @@ namespace Inventarios.Server.Models
             modelBuilder.Entity<ProductoSalida>().HasData(new ProductoSalida { Id = 3, IdSalida = 2, IdCategoria = 2, IdProducto = 8, IdEntrada = 3, Precio = 190000, Cantidad = 20, Descuento = 5, ValorDescuento = 190000, Total = 3610000 });
 
             modelBuilder.Entity<Salida>().HasData(new Salida { Id = 3, FechaFactura = new DateTime(fechaHoraActual.Year, fechaHoraActual.Month, fechaHoraActual.Day, fechaHoraActual.Hour, fechaHoraActual.Minute, 0), IdCliente = 2, CantidadProductos = 2, TotalPagarConDescuento = 164960, TotalPagarSinDescuento = 172000, TotalDescuento = 7040 });
-            modelBuilder.Entity<ProductoSalida>().HasData(new ProductoSalida { Id = 4, IdSalida = 3, IdCategoria = 3, IdProducto = 3, IdEntrada= 1, Precio = 8000, Cantidad = 15, Descuento = 5, ValorDescuento = 6000, Total = 114000 });
+            modelBuilder.Entity<ProductoSalida>().HasData(new ProductoSalida { Id = 4, IdSalida = 3, IdCategoria = 3, IdProducto = 3, IdEntrada = 1, Precio = 8000, Cantidad = 15, Descuento = 5, ValorDescuento = 6000, Total = 114000 });
             modelBuilder.Entity<ProductoSalida>().HasData(new ProductoSalida { Id = 5, IdSalida = 3, IdCategoria = 5, IdProducto = 7, IdEntrada = 2, Precio = 2600, Cantidad = 20, Descuento = 2, ValorDescuento = 1040, Total = 50960 });
-        }
+
+            //Insertar datos Reporte
+            modelBuilder.Entity<Reporte>().HasData(new Reporte { Id = 1, Nombre = "Reporte general de ventas", Descripcion = "Reporte general de las ventas" });
+            modelBuilder.Entity<Reporte>().HasData(new Reporte { Id = 2, Nombre = "Reporte entre dos fechas", Descripcion = "seleciona un rango de fechas para realizar un reporte de ventas en esa fecha" });
+
+        }        
     }
 }
