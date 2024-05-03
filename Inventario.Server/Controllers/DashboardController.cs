@@ -299,6 +299,140 @@ namespace Inventarios.Server.Controllers
 
             return productosCategorias;
         }
+
+        [HttpGet("Grafica/TopProductosMasVendidos")]
+        public async Task<ActionResult<IEnumerable<TopProducto>>> ConsultarTopProductosMasVendidos()
+        {
+            var topProductos = await _context.ProductoSalidas
+                .GroupBy(ps => ps.IdProducto)
+                .Select(g => new TopProducto
+                {
+                    IdProducto = g.Key,
+                    CantidadVentas = g.Count()
+                })
+                .OrderByDescending(tp => tp.CantidadVentas)
+                .Take(5)
+                .ToListAsync();
+
+            int contadorTop = 1;
+
+            foreach (var producto in topProductos)
+            {
+                producto.Top = contadorTop++;
+
+                var infoProducto = await _context.Productos
+                    .Where(p => p.Id == producto.IdProducto)
+                    .FirstOrDefaultAsync();
+
+                if (infoProducto != null)
+                {
+                    producto.NombreProducto = infoProducto.Nombre;
+                }
+            }
+
+            return topProductos;
+        }
+
+        [HttpGet("Grafica/TopProductosMenosVendidos")]
+        public async Task<ActionResult<IEnumerable<TopProducto>>> ConsultarTopProductosMenosVendidos()
+        {
+            var topProductos = await _context.ProductoSalidas
+                .GroupBy(ps => ps.IdProducto)
+                .Select(g => new TopProducto
+                {
+                    IdProducto = g.Key,
+                    CantidadVentas = g.Count()
+                })
+                .OrderBy(tp => tp.CantidadVentas)
+                .Take(5)
+                .ToListAsync();
+
+            int contadorTop = 1;
+
+            foreach (var producto in topProductos)
+            {
+                producto.Top = contadorTop++;
+
+                var infoProducto = await _context.Productos
+                    .Where(p => p.Id == producto.IdProducto)
+                    .FirstOrDefaultAsync();
+
+                if (infoProducto != null)
+                {
+                    producto.NombreProducto = infoProducto.Nombre;
+                }
+            }
+
+            return topProductos;
+        }
+
+        [HttpGet("Grafica/MesesConMasVentas")]
+        public async Task<ActionResult<IEnumerable<TopMeses>>> ConsultarMesesConMasSalidas()
+        {
+            var mesesConSalidas = await _context.Salidas
+                .GroupBy(s => s.FechaFactura.Month)
+                .Select(g => new TopMeses
+                {
+                    Mes = Utilidades.ObtenerNombreMes(g.Key),
+                    CantidadSalidas = g.Count()
+                })
+                .OrderByDescending(m => m.CantidadSalidas)
+                .Take(12)
+                .ToListAsync();
+
+            return mesesConSalidas;
+        }
+
+        [HttpGet("Grafica/VentasPorMes")]
+        public ActionResult<IEnumerable<SalidasPorMes>> ConsultarSalidasPorMes()
+        {
+            var salidasPorMes = (from mes in Enumerable.Range(1, 12)
+                                 join salida in _context.Salidas
+                                 on mes equals salida.FechaFactura.Month into gj
+                                 from subSalida in gj.DefaultIfEmpty()
+                                 group subSalida by mes into g
+                                 select new SalidasPorMes
+                                 {
+                                     Mes = Utilidades.ObtenerNombreMes(g.Key),
+                                     CantidadSalidas = g.Count(s => s != null)
+                                 }).ToList();
+
+            return salidasPorMes;
+        }
+
+        [HttpGet("Grafica/GananciaPorProducto")]
+        public async Task<ActionResult<IEnumerable<GananciaPorProducto>>> ConsultarGananciaPorProducto()
+        {
+            var gananciasPorProducto = await _context.ProductoSalidas
+                .GroupBy(ps => ps.IdProducto)
+                .Select(g => new
+                {
+                    IdProducto = g.Key,
+                    Cantidad = g.Sum(ps => ps.Cantidad),
+                    PrecioVenta = g.Average(ps => ps.Precio),
+                    PrecioCompra = g.Average(ps => ps.Entrada.PrecioCompra)
+                })
+                .ToListAsync();
+
+            var listaGananciaPorProducto = new List<GananciaPorProducto>();
+
+            foreach (var gananciaPorProducto in gananciasPorProducto)
+            {
+                var producto = await _context.Productos.FindAsync(gananciaPorProducto.IdProducto);
+
+                decimal ganancia = producto != null ? (gananciaPorProducto.PrecioVenta - gananciaPorProducto.PrecioCompra) * gananciaPorProducto.Cantidad : 0;
+
+                listaGananciaPorProducto.Add(new GananciaPorProducto
+                {
+                    IdProducto = gananciaPorProducto.IdProducto,
+                    NombreProducto = producto != null ? producto.Nombre : null,
+                    Ganancia = ganancia
+                });
+            }
+
+            return listaGananciaPorProducto;
+        }
+
     }
     public class ClienteSalidas
     {
@@ -312,5 +446,67 @@ namespace Inventarios.Server.Controllers
         public int IdCategoria { get; set; }
         public string NombreCategoria { get; set; }
         public int CantidadProductos { get; set; }
+    }
+    public class TopProducto
+    {
+        public int Top { get; set; }
+        public int IdProducto { get; set; }
+        public string NombreProducto { get; set; }
+        public int CantidadVentas { get; set; }
+    }
+
+    public class TopMeses
+    {
+        public string Mes { get; set; }
+        public int CantidadSalidas { get; set; }
+    }
+
+    public class SalidasPorMes
+    {
+        public string Mes { get; set; }
+        public int CantidadSalidas { get; set; }
+    }
+
+    public class GananciaPorProducto
+    {
+        public int IdProducto { get; set; }
+        public string NombreProducto { get; set; }
+        public decimal Ganancia { get; set; }
+    }
+
+    public static class Utilidades
+    {
+        public static string ObtenerNombreMes(int numeroMes)
+        {
+            switch (numeroMes)
+            {
+                case 1:
+                    return "Enero";
+                case 2:
+                    return "Febrero";
+                case 3:
+                    return "Marzo";
+                case 4:
+                    return "Abril";
+                case 5:
+                    return "Mayo";
+                case 6:
+                    return "Junio";
+                case 7:
+                    return "Julio";
+                case 8:
+                    return "Agosto";
+                case 9:
+                    return "Septiembre";
+                case 10:
+                    return "Octubre";
+                case 11:
+                    return "Noviembre";
+                case 12:
+                    return "Diciembre";
+                default:
+                    return "Desconocido";
+            }
+        }
     }
 }
