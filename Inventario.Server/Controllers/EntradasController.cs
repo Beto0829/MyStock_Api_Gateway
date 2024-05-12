@@ -53,7 +53,7 @@ namespace Inventarios.Server.Controllers
             var entradas = await _context.Entradas
                         .Include(c => c.Categoria)
                         .Include(c => c.Producto)
-                        .Include(c => c.proveedor)
+                        .Include(c => c.Proveedor)
                         .Select(p => new {
                             p.Id,
                             p.IdCategoria,
@@ -61,7 +61,7 @@ namespace Inventarios.Server.Controllers
                             p.IdProducto,
                             NombreProducto = p.Producto.Nombre,
                             p.IdProveedor,
-                            NombreProveedor = p.proveedor.Nombre,
+                            NombreProveedor = p.Proveedor.Nombre,
                             p.ExistenciaInicial,
                             p.ExistenciaActual,
                             p.PrecioCompra,
@@ -90,7 +90,7 @@ namespace Inventarios.Server.Controllers
                 .Where(p => p.IdCategoria == idCategoria)
                         .Include(c => c.Categoria)
                         .Include(c => c.Producto)
-                        .Include(c => c.proveedor)
+                        .Include(c => c.Proveedor)
                         .Select(p => new {
                             p.Id,
                             p.IdCategoria,
@@ -98,7 +98,7 @@ namespace Inventarios.Server.Controllers
                             p.IdProducto,
                             NombreProducto = p.Producto.Nombre,
                             p.IdProveedor,
-                            NombreProveedor = p.proveedor.Nombre,
+                            NombreProveedor = p.Proveedor.Nombre,
                             p.ExistenciaInicial,
                             p.ExistenciaActual,
                             p.PrecioCompra,
@@ -128,7 +128,7 @@ namespace Inventarios.Server.Controllers
                 .Where(p => p.IdProducto == idProductos)
                         .Include(c => c.Categoria)
                         .Include(c => c.Producto)
-                        .Include(c => c.proveedor)
+                        .Include(c => c.Proveedor)
                         .Select(p => new {
                             p.Id,
                             p.IdCategoria,
@@ -136,7 +136,7 @@ namespace Inventarios.Server.Controllers
                             p.IdProducto,
                             NombreProducto = p.Producto.Nombre,
                             p.IdProveedor,
-                            NombreProveedor = p.proveedor.Nombre,
+                            NombreProveedor = p.Proveedor.Nombre,
                             p.ExistenciaInicial,
                             p.ExistenciaActual,
                             p.PrecioCompra,

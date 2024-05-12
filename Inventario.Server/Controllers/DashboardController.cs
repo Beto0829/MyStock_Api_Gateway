@@ -246,59 +246,59 @@ namespace Inventarios.Server.Controllers
             }
         }
 
-        [HttpGet("Grafica/ConsultarClienteSalidas")]
-        public async Task<ActionResult<IEnumerable<ClienteSalidas>>> ConsultarClienteSalida()
-        {
-            var salidasClientes = await _context.Salidas
-                .GroupBy(s => s.IdCliente)
-                .Select(g => new ClienteSalidas
-                {
-                    IdCliente = g.Key,
-                    CantidadSalidas = g.Count()
-                })
-                .ToListAsync();
+        //[HttpGet("Grafica/ConsultarClienteSalidas")]
+        //public async Task<ActionResult<IEnumerable<ClienteSalidas>>> ConsultarClienteSalida()
+        //{
+        //    var salidasClientes = await _context.Salidas
+        //        .GroupBy(s => s.IdCliente)
+        //        .Select(g => new ClienteSalidas
+        //        {
+        //            IdCliente = g.Key,
+        //            CantidadSalidas = g.Count()
+        //        })
+        //        .ToListAsync();
 
-            foreach (var clienteSalidaCount in salidasClientes)
-            {
-                var cliente = await _context.Clientes
-                    .Where(c => c.Id == clienteSalidaCount.IdCliente)
-                    .FirstOrDefaultAsync();
+        //    foreach (var clienteSalidaCount in salidasClientes)
+        //    {
+        //        var cliente = await _context.Clientes
+        //            .Where(c => c.Id == clienteSalidaCount.IdCliente)
+        //            .FirstOrDefaultAsync();
 
-                if (cliente != null)
-                {
-                    clienteSalidaCount.NombreCliente = cliente.Nombre;
-                }
-            }
+        //        if (cliente != null)
+        //        {
+        //            clienteSalidaCount.NombreCliente = cliente.Nombre;
+        //        }
+        //    }
 
-            return salidasClientes;
-        }
+        //    return salidasClientes;
+        //}
 
-        [HttpGet("Grafica/ConsultarCategoriaProductos")]
-        public async Task<ActionResult<IEnumerable<CategoriaProductos>>> ConsultarCategoriaProductos()
-        {
-            var productosCategorias = await _context.Productos
-                .GroupBy(p => p.IdCategoria)
-                .Select(g => new CategoriaProductos
-                {
-                    IdCategoria = g.Key,
-                    CantidadProductos = g.Count()
-                })
-                .ToListAsync();
+        //[HttpGet("Grafica/ConsultarCategoriaProductos")]
+        //public async Task<ActionResult<IEnumerable<CategoriaProductos>>> ConsultarCategoriaProductos()
+        //{
+        //    var productosCategorias = await _context.Productos
+        //        .GroupBy(p => p.IdCategoria)
+        //        .Select(g => new CategoriaProductos
+        //        {
+        //            IdCategoria = g.Key,
+        //            CantidadProductos = g.Count()
+        //        })
+        //        .ToListAsync();
 
-            foreach (var categoriaProductosCount in productosCategorias)
-            {
-                var categoria = await _context.Categorias
-                    .Where(c => c.Id == categoriaProductosCount.IdCategoria)
-                    .FirstOrDefaultAsync();
+        //    foreach (var categoriaProductosCount in productosCategorias)
+        //    {
+        //        var categoria = await _context.Categorias
+        //            .Where(c => c.Id == categoriaProductosCount.IdCategoria)
+        //            .FirstOrDefaultAsync();
 
-                if (categoria != null)
-                {
-                    categoriaProductosCount.NombreCategoria = categoria.Nombre;
-                }
-            }
+        //        if (categoria != null)
+        //        {
+        //            categoriaProductosCount.NombreCategoria = categoria.Nombre;
+        //        }
+        //    }
 
-            return productosCategorias;
-        }
+        //    return productosCategorias;
+        //}
 
         [HttpGet("Grafica/TopProductosMasVendidos")]
         public async Task<ActionResult<IEnumerable<TopProducto>>> ConsultarTopProductosMasVendidos()

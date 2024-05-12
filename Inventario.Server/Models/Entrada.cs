@@ -40,7 +40,7 @@ namespace Inventarios.Server.Models
         public Producto? Producto { get; set; }
 
         [JsonIgnore]
-        public Proveedor? proveedor { get; set; }
+        public Proveedor? Proveedor { get; set; }
 
         [JsonIgnore]
         public List<ProductoSalida>? ProductoSalidas { get; set; }
