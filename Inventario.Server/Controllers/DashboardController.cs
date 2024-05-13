@@ -403,14 +403,14 @@ namespace Inventarios.Server.Controllers
         [HttpGet("Grafica/GananciaPorProducto")]
         public async Task<ActionResult<IEnumerable<GananciaPorProducto>>> ConsultarGananciaPorProducto()
         {
-            var gananciasPorProducto = await _context.ProductoSalidas
+            var gananciasPorProducto = await _context.Entradas
                 .GroupBy(ps => ps.IdProducto)
                 .Select(g => new
                 {
                     IdProducto = g.Key,
-                    Cantidad = g.Sum(ps => ps.Cantidad),
-                    PrecioVenta = g.Average(ps => ps.Precio),
-                    PrecioCompra = g.Average(ps => ps.Entrada.PrecioCompra)
+                    Cantidad = g.Sum(ps => ps.ExistenciaInicial),
+                    PrecioVenta = g.Average(ps => ps.PrecioVenta),
+                    PrecioCompra = g.Average(ps => ps.PrecioCompra)
                 })
                 .ToListAsync();
 
