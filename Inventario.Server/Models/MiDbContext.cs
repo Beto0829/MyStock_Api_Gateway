@@ -165,7 +165,7 @@ namespace Inventarios.Server.Models
             modelBuilder.Entity<Proveedor>().HasData(new Proveedor { Id = 11, Nombre = "Colombina", Celular = "3105678901", Correo = "colombina@hotmail.com" });
             modelBuilder.Entity<Proveedor>().HasData(new Proveedor { Id = 12, Nombre = "Club Colombia", Celular = "3146789012", Correo = "clubCo@gmail.com" });
             modelBuilder.Entity<Proveedor>().HasData(new Proveedor { Id = 13, Nombre = "Brisa", Celular = "3177890123", Correo = "Brisa@hotmail.com" });
-            modelBuilder.Entity<Proveedor>().HasData(new Proveedor { Id = 14, Nombre = "Gillette", Celular = "3128901234", Correo = "gille@gmail.com" });
+            modelBuilder.Entity<Proveedor>().HasData(new Proveedor { Id = 14, Nombre = "Gillette", Celular = "3128901200", Correo = "gille@gmail.com" });
             modelBuilder.Entity<Proveedor>().HasData(new Proveedor { Id = 15, Nombre = "Intel Co.", Celular = "3189012345", Correo = "IntelCo@gmail.com" });
             modelBuilder.Entity<Proveedor>().HasData(new Proveedor { Id = 16, Nombre = "Nike", Celular = "3150123456", Correo = "NikeCol@hotmail.com" });
             modelBuilder.Entity<Proveedor>().HasData(new Proveedor { Id = 17, Nombre = "Rincon del vago", Celular = "3191234567", Correo = "Elrincon@gmail.com" });
@@ -173,7 +173,7 @@ namespace Inventarios.Server.Models
             modelBuilder.Entity<Proveedor>().HasData(new Proveedor { Id = 19, Nombre = "IngCo", Celular = "3153456789", Correo = "IngcoCO@hotmail.com" });
             modelBuilder.Entity<Proveedor>().HasData(new Proveedor { Id = 20, Nombre = "Brissa", Celular = "3124567890", Correo = "brissaa@gmail.com" });
             modelBuilder.Entity<Proveedor>().HasData(new Proveedor { Id = 21, Nombre = "Nissan", Celular = "3175678901", Correo = "NissanCOl@hotmail.com" });
-            modelBuilder.Entity<Proveedor>().HasData(new Proveedor { Id = 22, Nombre = "TierraGro", Celular = "3146789012", Correo = "Tie@gmail.com" });
+            modelBuilder.Entity<Proveedor>().HasData(new Proveedor { Id = 22, Nombre = "TierraGro", Celular = "3146789100", Correo = "Tie@gmail.com" });
             modelBuilder.Entity<Proveedor>().HasData(new Proveedor { Id = 23, Nombre = "Ringo", Celular = "3197890123", Correo = "RingoCo@hotmail.com" });
             modelBuilder.Entity<Proveedor>().HasData(new Proveedor { Id = 24, Nombre = "Yamaha Musical", Celular = "3108901234", Correo = "Musicalyamaha@gmail.com" });
             //modelBuilder.Entity<Proveedor>().HasData(new Proveedor { Id = 25, Nombre = "Fanta", Celular = "3159012345", Correo = "fantacolombia@hotmail.com" });

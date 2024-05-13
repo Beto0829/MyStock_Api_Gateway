@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Inventarios.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class InventarioAPI : Migration
+    public partial class InventarioFullDataApi : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -74,7 +74,7 @@ namespace Inventarios.Server.Migrations
                         column: x => x.IdCategoria,
                         principalTable: "Categorias",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -98,7 +98,7 @@ namespace Inventarios.Server.Migrations
                         column: x => x.IdCliente,
                         principalTable: "Clientes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -126,19 +126,19 @@ namespace Inventarios.Server.Migrations
                         column: x => x.IdCategoria,
                         principalTable: "Categorias",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Entradas_Productos_IdProducto",
                         column: x => x.IdProducto,
                         principalTable: "Productos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Entradas_Proveedors_IdProveedor",
                         column: x => x.IdProveedor,
                         principalTable: "Proveedors",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -165,25 +165,25 @@ namespace Inventarios.Server.Migrations
                         column: x => x.IdCategoria,
                         principalTable: "Categorias",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_ProductoSalidas_Entradas_IdEntrada",
                         column: x => x.IdEntrada,
                         principalTable: "Entradas",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_ProductoSalidas_Productos_IdProducto",
                         column: x => x.IdProducto,
                         principalTable: "Productos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_ProductoSalidas_Salidas_IdSalida",
                         column: x => x.IdSalida,
                         principalTable: "Salidas",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.InsertData(
@@ -263,7 +263,7 @@ namespace Inventarios.Server.Migrations
                     { 11, "3105678901", "colombina@hotmail.com", "Colombina" },
                     { 12, "3146789012", "clubCo@gmail.com", "Club Colombia" },
                     { 13, "3177890123", "Brisa@hotmail.com", "Brisa" },
-                    { 14, "3128901234", "gille@gmail.com", "Gillette" },
+                    { 14, "3128901200", "gille@gmail.com", "Gillette" },
                     { 15, "3189012345", "IntelCo@gmail.com", "Intel Co." },
                     { 16, "3150123456", "NikeCol@hotmail.com", "Nike" },
                     { 17, "3191234567", "Elrincon@gmail.com", "Rincon del vago" },
@@ -271,7 +271,7 @@ namespace Inventarios.Server.Migrations
                     { 19, "3153456789", "IngcoCO@hotmail.com", "IngCo" },
                     { 20, "3124567890", "brissaa@gmail.com", "Brissa" },
                     { 21, "3175678901", "NissanCOl@hotmail.com", "Nissan" },
-                    { 22, "3146789012", "Tie@gmail.com", "TierraGro" },
+                    { 22, "3146789100", "Tie@gmail.com", "TierraGro" },
                     { 23, "3197890123", "RingoCo@hotmail.com", "Ringo" },
                     { 24, "3108901234", "Musicalyamaha@gmail.com", "Yamaha Musical" }
                 });
@@ -378,9 +378,9 @@ namespace Inventarios.Server.Migrations
                 columns: new[] { "Id", "CantidadProductos", "FechaFactura", "IdCliente", "TotalDescuento", "TotalPagarConDescuento", "TotalPagarSinDescuento" },
                 values: new object[,]
                 {
-                    { 1, 2, new DateTime(2024, 8, 2, 3, 13, 0, 0, DateTimeKind.Unspecified), 3, 26000m, 274000m, 300000m },
-                    { 2, 1, new DateTime(2024, 8, 2, 3, 13, 0, 0, DateTimeKind.Unspecified), 1, 190000m, 3610000m, 3800000m },
-                    { 3, 2, new DateTime(2024, 8, 2, 3, 13, 0, 0, DateTimeKind.Unspecified), 2, 7040m, 164960m, 172000m }
+                    { 1, 2, new DateTime(2024, 11, 18, 6, 14, 0, 0, DateTimeKind.Unspecified), 3, 26000m, 274000m, 300000m },
+                    { 2, 1, new DateTime(2024, 11, 18, 6, 14, 0, 0, DateTimeKind.Unspecified), 1, 190000m, 3610000m, 3800000m },
+                    { 3, 2, new DateTime(2024, 11, 18, 6, 14, 0, 0, DateTimeKind.Unspecified), 2, 7040m, 164960m, 172000m }
                 });
 
             migrationBuilder.InsertData(
@@ -388,41 +388,41 @@ namespace Inventarios.Server.Migrations
                 columns: new[] { "Id", "Estado", "ExistenciaActual", "ExistenciaInicial", "FechaEntrada", "IdCategoria", "IdProducto", "IdProveedor", "Nota", "PrecioCompra", "PrecioVenta" },
                 values: new object[,]
                 {
-                    { 1, "Activo", 50, 50, new DateTime(2024, 2, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), 6, 11, 5, "", 20000m, 80000m },
-                    { 2, "Activo", 150, 150, new DateTime(2024, 4, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 8, 20, 7, "", 90000m, 200000m },
-                    { 3, "Activo", 50, 50, new DateTime(2024, 2, 17, 0, 0, 0, 0, DateTimeKind.Unspecified), 10, 23, 9, "", 10000m, 35000m },
-                    { 4, "Activo", 200, 200, new DateTime(2024, 5, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 10, 26, 9, "", 4000000m, 4700000m },
-                    { 5, "Activo", 50, 50, new DateTime(2024, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), 11, 29, 10, "", 35000m, 80000m },
-                    { 6, "Activo", 400, 400, new DateTime(2024, 1, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 12, 31, 11, "", 58000m, 80000m },
-                    { 7, "Activo", 100, 100, new DateTime(2024, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 12, 34, 11, "", 45000m, 80000m },
-                    { 8, "Activo", 300, 300, new DateTime(2024, 4, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 12, 35, 11, "", 65000m, 215680m },
-                    { 9, "Activo", 70, 70, new DateTime(2024, 4, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 13, 42, 12, "", 60999m, 120000m },
-                    { 10, "Activo", 90, 90, new DateTime(2024, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 14, 40, 13, "", 700000m, 8000000m },
-                    { 11, "Activo", 200, 200, new DateTime(2024, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 15, 45, 14, "", 5000000m, 8000000m },
-                    { 12, "Activo", 135, 135, new DateTime(2024, 4, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 15, 44, 14, "", 30000m, 40000m },
-                    { 13, "Activo", 80, 80, new DateTime(2024, 4, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 16, 47, 15, "", 400000m, 535000m },
-                    { 14, "Activo", 100, 100, new DateTime(2024, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 16, 48, 15, "", 32400m, 53490m },
-                    { 15, "Activo", 50, 50, new DateTime(2024, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 16, 49, 15, "", 35690m, 109000m },
-                    { 16, "Activo", 35, 35, new DateTime(2024, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 16, 50, 15, "", 22000m, 40000m },
-                    { 17, "Activo", 300, 300, new DateTime(2024, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 16, 53, 15, "", 58000m, 98000m },
-                    { 18, "Activo", 50, 50, new DateTime(2024, 2, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 16, 55, 15, "", 13000m, 80000m },
-                    { 19, "Activo", 50, 50, new DateTime(2024, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 17, 59, 16, "", 11000m, 18000m },
-                    { 20, "Activo", 40, 40, new DateTime(2024, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 17, 61, 16, "", 42300m, 67800m },
-                    { 21, "Activo", 38, 38, new DateTime(2024, 3, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), 18, 63, 17, "", 2000000m, 3500000m },
-                    { 22, "Activo", 200, 200, new DateTime(2024, 2, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 19, 66, 18, "", 1200000m, 2000000m },
-                    { 23, "Activo", 50, 50, new DateTime(2024, 4, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 19, 67, 18, "", 500000m, 800000m },
-                    { 24, "Activo", 70, 70, new DateTime(2024, 2, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 20, 73, 19, "", 250000m, 800000m },
-                    { 25, "Activo", 200, 200, new DateTime(2024, 2, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 21, 75, 20, "", 1200000m, 2000000m },
-                    { 26, "Activo", 50, 50, new DateTime(2024, 4, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 21, 77, 20, "", 500000m, 800000m },
-                    { 27, "Activo", 70, 70, new DateTime(2024, 3, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), 21, 78, 20, "", 250000m, 800000m },
-                    { 28, "Activo", 200, 200, new DateTime(2024, 4, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 22, 80, 21, "", 1200000m, 2000000m },
-                    { 29, "Activo", 50, 50, new DateTime(2024, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), 23, 81, 22, "", 500000m, 800000m },
-                    { 30, "Activo", 70, 70, new DateTime(2024, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 24, 84, 23, "", 250000m, 800000m },
-                    { 31, "Activo", 50, 50, new DateTime(2024, 2, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 25, 87, 24, "", 500000m, 800000m },
-                    { 32, "Activo", 70, 70, new DateTime(2024, 4, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), 25, 88, 24, "", 250000m, 800000m },
-                    { 33, "Activo", 200, 200, new DateTime(2024, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 25, 89, 24, "", 1200000m, 2000000m },
-                    { 34, "Activo", 50, 50, new DateTime(2024, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 25, 85, 24, "", 500000m, 800000m },
-                    { 35, "Activo", 70, 70, new DateTime(2024, 1, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 5, 5, 4, "", 250000m, 800000m }
+                    { 1, "Activo", 50, 50, new DateTime(2024, 4, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 6, 11, 5, "", 20000m, 80000m },
+                    { 2, "Activo", 150, 150, new DateTime(2024, 4, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), 8, 20, 7, "", 90000m, 200000m },
+                    { 3, "Activo", 50, 50, new DateTime(2024, 5, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), 10, 23, 9, "", 10000m, 35000m },
+                    { 4, "Activo", 200, 200, new DateTime(2024, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 10, 26, 9, "", 4000000m, 4700000m },
+                    { 5, "Activo", 50, 50, new DateTime(2024, 4, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 11, 29, 10, "", 35000m, 80000m },
+                    { 6, "Activo", 400, 400, new DateTime(2024, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), 12, 31, 11, "", 58000m, 80000m },
+                    { 7, "Activo", 100, 100, new DateTime(2024, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified), 12, 34, 11, "", 45000m, 80000m },
+                    { 8, "Activo", 300, 300, new DateTime(2024, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 12, 35, 11, "", 65000m, 215680m },
+                    { 9, "Activo", 70, 70, new DateTime(2024, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 13, 42, 12, "", 60999m, 120000m },
+                    { 10, "Activo", 90, 90, new DateTime(2024, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 14, 40, 13, "", 700000m, 8000000m },
+                    { 11, "Activo", 200, 200, new DateTime(2024, 2, 29, 0, 0, 0, 0, DateTimeKind.Unspecified), 15, 45, 14, "", 5000000m, 8000000m },
+                    { 12, "Activo", 135, 135, new DateTime(2024, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 15, 44, 14, "", 30000m, 40000m },
+                    { 13, "Activo", 80, 80, new DateTime(2024, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 16, 47, 15, "", 400000m, 535000m },
+                    { 14, "Activo", 100, 100, new DateTime(2024, 1, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 16, 48, 15, "", 32400m, 53490m },
+                    { 15, "Activo", 50, 50, new DateTime(2024, 4, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 16, 49, 15, "", 35690m, 109000m },
+                    { 16, "Activo", 35, 35, new DateTime(2024, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 16, 50, 15, "", 22000m, 40000m },
+                    { 17, "Activo", 300, 300, new DateTime(2024, 4, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), 16, 53, 15, "", 58000m, 98000m },
+                    { 18, "Activo", 50, 50, new DateTime(2024, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 16, 55, 15, "", 13000m, 80000m },
+                    { 19, "Activo", 50, 50, new DateTime(2024, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 17, 59, 16, "", 11000m, 18000m },
+                    { 20, "Activo", 40, 40, new DateTime(2024, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 17, 61, 16, "", 42300m, 67800m },
+                    { 21, "Activo", 38, 38, new DateTime(2024, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 18, 63, 17, "", 2000000m, 3500000m },
+                    { 22, "Activo", 200, 200, new DateTime(2024, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 19, 66, 18, "", 1200000m, 2000000m },
+                    { 23, "Activo", 50, 50, new DateTime(2024, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 19, 67, 18, "", 500000m, 800000m },
+                    { 24, "Activo", 70, 70, new DateTime(2024, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 20, 73, 19, "", 250000m, 800000m },
+                    { 25, "Activo", 200, 200, new DateTime(2024, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 21, 75, 20, "", 1200000m, 2000000m },
+                    { 26, "Activo", 50, 50, new DateTime(2024, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified), 21, 77, 20, "", 500000m, 800000m },
+                    { 27, "Activo", 70, 70, new DateTime(2024, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified), 21, 78, 20, "", 250000m, 800000m },
+                    { 28, "Activo", 200, 200, new DateTime(2024, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 22, 80, 21, "", 1200000m, 2000000m },
+                    { 29, "Activo", 50, 50, new DateTime(2024, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), 23, 81, 22, "", 500000m, 800000m },
+                    { 30, "Activo", 70, 70, new DateTime(2024, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 24, 84, 23, "", 250000m, 800000m },
+                    { 31, "Activo", 50, 50, new DateTime(2024, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 25, 87, 24, "", 500000m, 800000m },
+                    { 32, "Activo", 70, 70, new DateTime(2024, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), 25, 88, 24, "", 250000m, 800000m },
+                    { 33, "Activo", 200, 200, new DateTime(2024, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), 25, 89, 24, "", 1200000m, 2000000m },
+                    { 34, "Activo", 50, 50, new DateTime(2024, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 25, 85, 24, "", 500000m, 800000m },
+                    { 35, "Activo", 70, 70, new DateTime(2024, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), 5, 5, 4, "", 250000m, 800000m }
                 });
 
             migrationBuilder.InsertData(
