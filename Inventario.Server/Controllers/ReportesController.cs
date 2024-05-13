@@ -382,12 +382,15 @@ namespace Inventarios.Server.Controllers
         }
 
         [HttpGet]
-        [Route("ProveedoresEntradas")]
-        public async Task<ActionResult<IEnumerable<object>>> ConsultarProveedoresEntradas()
+        [Route("ProveedoresEntradasDiaActual")]
+        public async Task<ActionResult<IEnumerable<object>>> ConsultarProveedoresEntradasDiaActual()
         {
             try
             {
+                DateTime fechaActual = DateTime.Now.Date;
+
                 var proveedoresEntradas = await _context.Entradas
+                    .Where(e => e.FechaEntrada.Date == fechaActual)
                     .Include(e => e.Proveedor)
                     .Select(e => new
                     {
@@ -395,7 +398,6 @@ namespace Inventarios.Server.Controllers
                         NombreProveedor = e.Proveedor.Nombre,
                         FechaEntrada = e.FechaEntrada
                     })
-                    //.Distinct() 
                     .ToListAsync();
 
                 return Ok(proveedoresEntradas);
@@ -406,6 +408,41 @@ namespace Inventarios.Server.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("ProveedoresEntradasEntreFechas")]
+        public async Task<ActionResult<IEnumerable<object>>> ConsultarProveedoresEntradasEntreFechas(DateTime fechaInicio, DateTime fechaFinal)
+        {
+            try
+            {
+                fechaInicio = fechaInicio.Date;
+                fechaFinal = fechaFinal.Date.AddDays(1).AddTicks(-1);
+
+                var entradas = await _context.Entradas
+                    .Include(c => c.Categoria)
+                    .Include(c => c.Producto)
+                    .Include(c => c.Proveedor)
+                    .Where(e => e.FechaEntrada >= fechaInicio && e.FechaEntrada <= fechaFinal)
+                    .ToListAsync();
+
+                if (entradas == null || entradas.Count == 0)
+                {
+                    return Ok("No existen compras registradas para las fechas digitadas.");
+                }
+
+                var resultados = entradas.Select(p => new
+                {
+                    p.IdProveedor,
+                    NombreProveedor = p.Proveedor.Nombre,
+                    FechaEntrada = p.FechaEntrada.ToString("dd/MM/yy HH:mm"),
+                }).ToList();
+
+                return Ok(resultados);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error al consultar las compras entre las fechas: " + ex.Message);
+            }
+        }
         //FIN
         ////////////////////
         //PRODUCTOSVEDIDOS
