@@ -366,22 +366,22 @@ namespace Inventarios.Server.Controllers
             return topProductos;
         }
 
-        [HttpGet("Grafica/MesesConMasVentas")]
-        public async Task<ActionResult<IEnumerable<TopMeses>>> ConsultarMesesConMasSalidas()
-        {
-            var mesesConSalidas = await _context.Salidas
-                .GroupBy(s => s.FechaFactura.Month)
-                .Select(g => new TopMeses
-                {
-                    Mes = Utilidades.ObtenerNombreMes(g.Key),
-                    CantidadSalidas = g.Count()
-                })
-                .OrderByDescending(m => m.CantidadSalidas)
-                .Take(12)
-                .ToListAsync();
+        //[HttpGet("Grafica/MesesConMasVentas")]
+        //public async Task<ActionResult<IEnumerable<TopMeses>>> ConsultarMesesConMasSalidas()
+        //{
+        //    var mesesConSalidas = await _context.Salidas
+        //        .GroupBy(s => s.FechaFactura.Month)
+        //        .Select(g => new TopMeses
+        //        {
+        //            Mes = Utilidades.ObtenerNombreMes(g.Key),
+        //            CantidadSalidas = g.Count()
+        //        })
+        //        .OrderByDescending(m => m.CantidadSalidas)
+        //        .Take(12)
+        //        .ToListAsync();
 
-            return mesesConSalidas;
-        }
+        //    return mesesConSalidas;
+        //}
 
         [HttpGet("Grafica/VentasPorMes")]
         public ActionResult<IEnumerable<SalidasPorMes>> ConsultarSalidasPorMes()
