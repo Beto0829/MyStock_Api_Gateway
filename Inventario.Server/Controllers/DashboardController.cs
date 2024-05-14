@@ -273,32 +273,32 @@ namespace Inventarios.Server.Controllers
         //    return salidasClientes;
         //}
 
-        //[HttpGet("Grafica/ConsultarCategoriaProductos")]
-        //public async Task<ActionResult<IEnumerable<CategoriaProductos>>> ConsultarCategoriaProductos()
-        //{
-        //    var productosCategorias = await _context.Productos
-        //        .GroupBy(p => p.IdCategoria)
-        //        .Select(g => new CategoriaProductos
-        //        {
-        //            IdCategoria = g.Key,
-        //            CantidadProductos = g.Count()
-        //        })
-        //        .ToListAsync();
+        [HttpGet("Grafica/ConsultarCategoriaProductos")]
+        public async Task<ActionResult<IEnumerable<CategoriaProductos>>> ConsultarCategoriaProductos()
+        {
+            var productosCategorias = await _context.Productos
+                .GroupBy(p => p.IdCategoria)
+                .Select(g => new CategoriaProductos
+                {
+                    IdCategoria = g.Key,
+                    CantidadProductos = g.Count()
+                })
+                .ToListAsync();
 
-        //    foreach (var categoriaProductosCount in productosCategorias)
-        //    {
-        //        var categoria = await _context.Categorias
-        //            .Where(c => c.Id == categoriaProductosCount.IdCategoria)
-        //            .FirstOrDefaultAsync();
+            foreach (var categoriaProductosCount in productosCategorias)
+            {
+                var categoria = await _context.Categorias
+                    .Where(c => c.Id == categoriaProductosCount.IdCategoria)
+                    .FirstOrDefaultAsync();
 
-        //        if (categoria != null)
-        //        {
-        //            categoriaProductosCount.NombreCategoria = categoria.Nombre;
-        //        }
-        //    }
+                if (categoria != null)
+                {
+                    categoriaProductosCount.NombreCategoria = categoria.Nombre;
+                }
+            }
 
-        //    return productosCategorias;
-        //}
+            return productosCategorias;
+        }
 
         [HttpGet("Grafica/TopProductosMasVendidos")]
         public async Task<ActionResult<IEnumerable<TopProducto>>> ConsultarTopProductosMasVendidos()
