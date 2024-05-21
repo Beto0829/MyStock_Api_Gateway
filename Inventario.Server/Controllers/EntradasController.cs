@@ -194,7 +194,7 @@ namespace Inventarios.Server.Controllers
 
             foreach (var entrada in entradas)
             {
-                if (entrada.ExistenciaActual == 0 && entrada.Estado != "Inactivo")
+                if (entrada.ExistenciaActual == 0 && entrada.Estado == "Activo")
                 {
                     entrada.Estado = "Inactivo";
                     algunaEntradaActualizada = true;

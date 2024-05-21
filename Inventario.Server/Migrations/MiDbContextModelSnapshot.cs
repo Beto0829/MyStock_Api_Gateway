@@ -346,6 +346,40 @@ namespace Inventarios.Server.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Inventarios.Server.Models.Empresa", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Direccion")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Telefono")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Usuario")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Usuario")
+                        .IsUnique();
+
+                    b.ToTable("Empresas");
+                });
+
             modelBuilder.Entity("Inventarios.Server.Models.Entrada", b =>
                 {
                     b.Property<int>("Id")
@@ -402,7 +436,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 50,
                             ExistenciaInicial = 50,
-                            FechaEntrada = new DateTime(2024, 4, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 4, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 6,
                             IdProducto = 11,
                             IdProveedor = 5,
@@ -430,7 +464,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 50,
                             ExistenciaInicial = 50,
-                            FechaEntrada = new DateTime(2024, 5, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 5, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 10,
                             IdProducto = 23,
                             IdProveedor = 9,
@@ -444,7 +478,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 200,
                             ExistenciaInicial = 200,
-                            FechaEntrada = new DateTime(2024, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 4, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 10,
                             IdProducto = 26,
                             IdProveedor = 9,
@@ -458,7 +492,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 50,
                             ExistenciaInicial = 50,
-                            FechaEntrada = new DateTime(2024, 4, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 11,
                             IdProducto = 29,
                             IdProveedor = 10,
@@ -472,7 +506,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 400,
                             ExistenciaInicial = 400,
-                            FechaEntrada = new DateTime(2024, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 12,
                             IdProducto = 31,
                             IdProveedor = 11,
@@ -486,7 +520,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 100,
                             ExistenciaInicial = 100,
-                            FechaEntrada = new DateTime(2024, 1, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 4, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 12,
                             IdProducto = 34,
                             IdProveedor = 11,
@@ -500,7 +534,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 300,
                             ExistenciaInicial = 300,
-                            FechaEntrada = new DateTime(2024, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 3, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 12,
                             IdProducto = 35,
                             IdProveedor = 11,
@@ -514,7 +548,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 70,
                             ExistenciaInicial = 70,
-                            FechaEntrada = new DateTime(2024, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 13,
                             IdProducto = 42,
                             IdProveedor = 12,
@@ -528,7 +562,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 90,
                             ExistenciaInicial = 90,
-                            FechaEntrada = new DateTime(2024, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 2, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 14,
                             IdProducto = 40,
                             IdProveedor = 13,
@@ -542,7 +576,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 200,
                             ExistenciaInicial = 200,
-                            FechaEntrada = new DateTime(2024, 2, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 15,
                             IdProducto = 45,
                             IdProveedor = 14,
@@ -556,7 +590,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 135,
                             ExistenciaInicial = 135,
-                            FechaEntrada = new DateTime(2024, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 15,
                             IdProducto = 44,
                             IdProveedor = 14,
@@ -570,7 +604,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 80,
                             ExistenciaInicial = 80,
-                            FechaEntrada = new DateTime(2024, 3, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 16,
                             IdProducto = 47,
                             IdProveedor = 15,
@@ -584,7 +618,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 100,
                             ExistenciaInicial = 100,
-                            FechaEntrada = new DateTime(2024, 1, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 4, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 16,
                             IdProducto = 48,
                             IdProveedor = 15,
@@ -598,7 +632,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 50,
                             ExistenciaInicial = 50,
-                            FechaEntrada = new DateTime(2024, 4, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 16,
                             IdProducto = 49,
                             IdProveedor = 15,
@@ -612,7 +646,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 35,
                             ExistenciaInicial = 35,
-                            FechaEntrada = new DateTime(2024, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 2, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 16,
                             IdProducto = 50,
                             IdProveedor = 15,
@@ -626,7 +660,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 300,
                             ExistenciaInicial = 300,
-                            FechaEntrada = new DateTime(2024, 4, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 4, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 16,
                             IdProducto = 53,
                             IdProveedor = 15,
@@ -640,7 +674,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 50,
                             ExistenciaInicial = 50,
-                            FechaEntrada = new DateTime(2024, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 4, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 16,
                             IdProducto = 55,
                             IdProveedor = 15,
@@ -654,7 +688,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 50,
                             ExistenciaInicial = 50,
-                            FechaEntrada = new DateTime(2024, 5, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 17,
                             IdProducto = 59,
                             IdProveedor = 16,
@@ -668,7 +702,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 40,
                             ExistenciaInicial = 40,
-                            FechaEntrada = new DateTime(2024, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 2, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 17,
                             IdProducto = 61,
                             IdProveedor = 16,
@@ -682,7 +716,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 38,
                             ExistenciaInicial = 38,
-                            FechaEntrada = new DateTime(2024, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 18,
                             IdProducto = 63,
                             IdProveedor = 17,
@@ -696,7 +730,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 200,
                             ExistenciaInicial = 200,
-                            FechaEntrada = new DateTime(2024, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 19,
                             IdProducto = 66,
                             IdProveedor = 18,
@@ -710,7 +744,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 50,
                             ExistenciaInicial = 50,
-                            FechaEntrada = new DateTime(2024, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 19,
                             IdProducto = 67,
                             IdProveedor = 18,
@@ -724,7 +758,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 70,
                             ExistenciaInicial = 70,
-                            FechaEntrada = new DateTime(2024, 1, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 3, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 20,
                             IdProducto = 73,
                             IdProveedor = 19,
@@ -738,7 +772,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 200,
                             ExistenciaInicial = 200,
-                            FechaEntrada = new DateTime(2024, 3, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 21,
                             IdProducto = 75,
                             IdProveedor = 20,
@@ -752,7 +786,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 50,
                             ExistenciaInicial = 50,
-                            FechaEntrada = new DateTime(2024, 2, 27, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 21,
                             IdProducto = 77,
                             IdProveedor = 20,
@@ -766,7 +800,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 70,
                             ExistenciaInicial = 70,
-                            FechaEntrada = new DateTime(2024, 3, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 4, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 21,
                             IdProducto = 78,
                             IdProveedor = 20,
@@ -780,7 +814,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 200,
                             ExistenciaInicial = 200,
-                            FechaEntrada = new DateTime(2024, 4, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 22,
                             IdProducto = 80,
                             IdProveedor = 21,
@@ -794,7 +828,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 50,
                             ExistenciaInicial = 50,
-                            FechaEntrada = new DateTime(2024, 1, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 1, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 23,
                             IdProducto = 81,
                             IdProveedor = 22,
@@ -808,7 +842,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 70,
                             ExistenciaInicial = 70,
-                            FechaEntrada = new DateTime(2024, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 4, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 24,
                             IdProducto = 84,
                             IdProveedor = 23,
@@ -822,7 +856,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 50,
                             ExistenciaInicial = 50,
-                            FechaEntrada = new DateTime(2024, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 25,
                             IdProducto = 87,
                             IdProveedor = 24,
@@ -836,7 +870,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 70,
                             ExistenciaInicial = 70,
-                            FechaEntrada = new DateTime(2024, 3, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 1, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 25,
                             IdProducto = 88,
                             IdProveedor = 24,
@@ -850,7 +884,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 200,
                             ExistenciaInicial = 200,
-                            FechaEntrada = new DateTime(2024, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 25,
                             IdProducto = 89,
                             IdProveedor = 24,
@@ -878,7 +912,7 @@ namespace Inventarios.Server.Migrations
                             Estado = "Activo",
                             ExistenciaActual = 70,
                             ExistenciaInicial = 70,
-                            FechaEntrada = new DateTime(2024, 4, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaEntrada = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IdCategoria = 5,
                             IdProducto = 5,
                             IdProveedor = 4,
@@ -886,6 +920,39 @@ namespace Inventarios.Server.Migrations
                             PrecioCompra = 250000m,
                             PrecioVenta = 800000m
                         });
+                });
+
+            modelBuilder.Entity("Inventarios.Server.Models.Notificacion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Cuerpo")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Estado")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Titulo")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Notificaciones");
                 });
 
             modelBuilder.Entity("Inventarios.Server.Models.Producto", b =>
@@ -1601,9 +1668,9 @@ namespace Inventarios.Server.Migrations
                             Id = 1,
                             Cantidad = 5,
                             Descuento = 0m,
-                            IdCategoria = 3,
+                            IdCategoria = 6,
                             IdEntrada = 1,
-                            IdProducto = 3,
+                            IdProducto = 11,
                             IdSalida = 1,
                             Precio = 8000m,
                             Total = 40000m,
@@ -1614,11 +1681,11 @@ namespace Inventarios.Server.Migrations
                             Id = 2,
                             Cantidad = 100,
                             Descuento = 10m,
-                            IdCategoria = 5,
+                            IdCategoria = 8,
                             IdEntrada = 2,
-                            IdProducto = 7,
+                            IdProducto = 20,
                             IdSalida = 1,
-                            Precio = 2600m,
+                            Precio = 200000m,
                             Total = 234000m,
                             ValorDescuento = 26000m
                         },
@@ -1904,7 +1971,7 @@ namespace Inventarios.Server.Migrations
                         {
                             Id = 1,
                             CantidadProductos = 2,
-                            FechaFactura = new DateTime(2024, 11, 18, 6, 14, 0, 0, DateTimeKind.Unspecified),
+                            FechaFactura = new DateTime(2024, 11, 20, 7, 4, 0, 0, DateTimeKind.Unspecified),
                             IdCliente = 3,
                             TotalDescuento = 26000m,
                             TotalPagarConDescuento = 274000m,
@@ -1914,7 +1981,7 @@ namespace Inventarios.Server.Migrations
                         {
                             Id = 2,
                             CantidadProductos = 1,
-                            FechaFactura = new DateTime(2024, 11, 18, 6, 14, 0, 0, DateTimeKind.Unspecified),
+                            FechaFactura = new DateTime(2024, 11, 20, 7, 4, 0, 0, DateTimeKind.Unspecified),
                             IdCliente = 1,
                             TotalDescuento = 190000m,
                             TotalPagarConDescuento = 3610000m,
@@ -1924,7 +1991,7 @@ namespace Inventarios.Server.Migrations
                         {
                             Id = 3,
                             CantidadProductos = 2,
-                            FechaFactura = new DateTime(2024, 11, 18, 6, 14, 0, 0, DateTimeKind.Unspecified),
+                            FechaFactura = new DateTime(2024, 11, 20, 7, 4, 0, 0, DateTimeKind.Unspecified),
                             IdCliente = 2,
                             TotalDescuento = 7040m,
                             TotalPagarConDescuento = 164960m,

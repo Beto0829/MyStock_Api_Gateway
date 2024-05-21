@@ -246,32 +246,32 @@ namespace Inventarios.Server.Controllers
             }
         }
 
-        //[HttpGet("Grafica/ConsultarClienteSalidas")]
-        //public async Task<ActionResult<IEnumerable<ClienteSalidas>>> ConsultarClienteSalida()
-        //{
-        //    var salidasClientes = await _context.Salidas
-        //        .GroupBy(s => s.IdCliente)
-        //        .Select(g => new ClienteSalidas
-        //        {
-        //            IdCliente = g.Key,
-        //            CantidadSalidas = g.Count()
-        //        })
-        //        .ToListAsync();
+        [HttpGet("Grafica/ConsultarClienteSalidas")]
+        public async Task<ActionResult<IEnumerable<ClienteSalidas>>> ConsultarClienteSalida()
+        {
+            var salidasClientes = await _context.Salidas
+                .GroupBy(s => s.IdCliente)
+                .Select(g => new ClienteSalidas
+                {
+                    IdCliente = g.Key,
+                    CantidadSalidas = g.Count()
+                })
+                .ToListAsync();
 
-        //    foreach (var clienteSalidaCount in salidasClientes)
-        //    {
-        //        var cliente = await _context.Clientes
-        //            .Where(c => c.Id == clienteSalidaCount.IdCliente)
-        //            .FirstOrDefaultAsync();
+            foreach (var clienteSalidaCount in salidasClientes)
+            {
+                var cliente = await _context.Clientes
+                    .Where(c => c.Id == clienteSalidaCount.IdCliente)
+                    .FirstOrDefaultAsync();
 
-        //        if (cliente != null)
-        //        {
-        //            clienteSalidaCount.NombreCliente = cliente.Nombre;
-        //        }
-        //    }
+                if (cliente != null)
+                {
+                    clienteSalidaCount.NombreCliente = cliente.Nombre;
+                }
+            }
 
-        //    return salidasClientes;
-        //}
+            return salidasClientes;
+        }
 
         [HttpGet("Grafica/ConsultarCategoriaProductos")]
         public async Task<ActionResult<IEnumerable<CategoriaProductos>>> ConsultarCategoriaProductos()
@@ -366,22 +366,22 @@ namespace Inventarios.Server.Controllers
             return topProductos;
         }
 
-        //[HttpGet("Grafica/MesesConMasVentas")]
-        //public async Task<ActionResult<IEnumerable<TopMeses>>> ConsultarMesesConMasSalidas()
-        //{
-        //    var mesesConSalidas = await _context.Salidas
-        //        .GroupBy(s => s.FechaFactura.Month)
-        //        .Select(g => new TopMeses
-        //        {
-        //            Mes = Utilidades.ObtenerNombreMes(g.Key),
-        //            CantidadSalidas = g.Count()
-        //        })
-        //        .OrderByDescending(m => m.CantidadSalidas)
-        //        .Take(12)
-        //        .ToListAsync();
+        [HttpGet("Grafica/MesesConMasVentas")]
+        public async Task<ActionResult<IEnumerable<TopMeses>>> ConsultarMesesConMasSalidas()
+        {
+            var mesesConSalidas = await _context.Salidas
+                .GroupBy(s => s.FechaFactura.Month)
+                .Select(g => new TopMeses
+                {
+                    Mes = Utilidades.ObtenerNombreMes(g.Key),
+                    CantidadSalidas = g.Count()
+                })
+                .OrderByDescending(m => m.CantidadSalidas)
+                .Take(12)
+                .ToListAsync();
 
-        //    return mesesConSalidas;
-        //}
+            return mesesConSalidas;
+        }
 
         [HttpGet("Grafica/VentasPorMes")]
         public ActionResult<IEnumerable<SalidasPorMes>> ConsultarSalidasPorMes()

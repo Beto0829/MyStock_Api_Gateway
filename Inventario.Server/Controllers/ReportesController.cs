@@ -532,5 +532,207 @@ namespace Inventarios.Server.Controllers
         //FIN
         ///////////////////
 
+        //OPCIONALES
+        [HttpGet]
+        [Route("ProductosSalidaDiaActualOpcional")]
+        public async Task<ActionResult<IEnumerable<object>>> ConsultarProductosSalidaDiaActualOpcional(int? idCategoria = null, int? idProducto = null, int? idCliente = null)
+        {
+            try
+            {
+                DateTime fechaActual = DateTime.Now.Date;
+
+                var query = _context.ProductoSalidas
+                    .Include(ps => ps.Salida)
+                    .Include(ps => ps.Categoria)
+                    .Include(ps => ps.Producto)
+                    .Where(ps => ps.Salida.FechaFactura.Date == fechaActual);
+
+                // Aplicar filtros opcionales
+                if (idCategoria.HasValue)
+                {
+                    query = query.Where(ps => ps.IdCategoria == idCategoria.Value);
+                }
+
+                if (idProducto.HasValue)
+                {
+                    query = query.Where(ps => ps.IdProducto == idProducto.Value);
+                }
+
+                if (idCliente.HasValue)
+                {
+                    query = query.Where(ps => ps.Salida.IdCliente == idCliente.Value);
+                }
+
+                var resultados = query.Select(s => new
+                {
+                    s.Salida.Id,
+                    s.Salida.FechaFactura,
+                    ClienteId = s.Salida.IdCliente,
+                    ClienteNombre = s.Salida.Cliente != null ? s.Salida.Cliente.Nombre : "Sin cliente",
+                    s.Salida.CantidadProductos,
+                    s.Salida.TotalPagarConDescuento,
+                    s.Salida.TotalPagarSinDescuento,
+                    s.Salida.TotalDescuento,
+                    ProductoSalidas = s.Salida.ProductoSalidas.Select(ps => new
+                    {
+                        ps.Id,
+                        ps.IdSalida,
+                        CategoriaId = ps.IdCategoria,
+                        CategoriaNombre = ps.Categoria != null ? ps.Categoria.Nombre : "Sin categoria",
+                        ProductoId = ps.IdProducto,
+                        ProductoNombre = ps.Producto != null ? ps.Producto.Nombre : "Sin producto",
+                        ps.Precio,
+                        ps.Cantidad,
+                        ps.Descuento,
+                        ps.ValorDescuento,
+                        ps.Total
+                    }).ToList()
+                }).ToList();
+
+                if (resultados == null || resultados.Count == 0)
+                {
+                    return Ok("No existen productos de salida registrados para el día actual.");
+                }
+
+                return Ok(resultados);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error al consultar los productos de salida del día actual: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("ComprasDiaActualOpcional")]
+        public async Task<ActionResult<IEnumerable<object>>> ConsultarComprasActualesOpcional(int? idCategoria = null, int? idProducto = null, int? idProveedor = null)
+        {
+            try
+            {
+                DateTime fechaActual = DateTime.Now.Date;
+
+                var query = _context.Entradas
+                         .Include(e => e.Categoria)
+                         .Include(e => e.Producto)
+                         .Include(e => e.Proveedor)
+                         .Where(e => e.FechaEntrada.Date == fechaActual);
+
+
+                // Aplicar filtros opcionales
+                if (idCategoria.HasValue)
+                {
+                    query = query.Where(e => e.IdCategoria == idCategoria.Value);
+                }
+
+                if (idProducto.HasValue)
+                {
+                    query = query.Where(e => e.IdProducto == idProducto.Value);
+                }
+
+                if (idProveedor.HasValue)
+                {
+                    query = query.Where(e => e.IdProveedor == idProveedor.Value);
+                }
+
+                var entradas = query.Select(p => new
+                {
+                    p.Id,
+                    p.IdCategoria,
+                    NombreCategoria = p.Categoria.Nombre,
+                    p.IdProducto,
+                    NombreProducto = p.Producto.Nombre,
+                    p.IdProveedor,
+                    NombreProveedor = p.Proveedor.Nombre,
+                    p.ExistenciaInicial,
+                    p.ExistenciaActual,
+                    p.PrecioCompra,
+                    p.PrecioVenta,
+                    p.Nota,
+                    FechaEntrada = p.FechaEntrada.ToString("dd/MM/yy HH:mm"),
+                    p.Estado
+                }).ToList();
+
+                if (entradas == null || entradas.Count == 0)
+                {
+                    return Ok("No existen compras registradas para las fechas digitadas.");
+                }
+
+                return Ok(entradas);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error al consultar las compras del día actual: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("VentasDiaActualOpcional")]
+        public async Task<ActionResult<IEnumerable<object>>> ConsultarVentasActualesOpcional(int? idCategoria = null, int? idProducto = null, int? idCliente = null)
+        {
+            try
+            {
+                DateTime fechaActual = DateTime.Now.Date;
+
+                var query = _context.ProductoSalidas
+                   .Include(ps => ps.Salida)
+                   .Include(ps => ps.Categoria)
+                   .Include(ps => ps.Producto)
+                   .Where(ps => ps.Salida.FechaFactura.Date == fechaActual);
+
+
+                // Aplicar filtros opcionales
+                if (idCategoria.HasValue)
+                {
+                    query = query.Where(e => e.IdCategoria == idCategoria.Value);
+                }
+
+                if (idProducto.HasValue)
+                {
+                    query = query.Where(e => e.IdProducto == idProducto.Value);
+                }
+
+                if (idCliente.HasValue)
+                {
+                    query = query.Where(e => e.Salida.IdCliente == idCliente.Value);
+                }
+
+                var resultados = query.Select(s => new
+                {
+                    s.Salida.Id,
+                    s.Salida.FechaFactura,
+                    ClienteId = s.Salida.IdCliente,
+                    ClienteNombre = s.Salida.Cliente != null ? s.Salida.Cliente.Nombre : "Sin cliente",
+                    s.Salida.CantidadProductos,
+                    s.Salida.TotalPagarConDescuento,
+                    s.Salida.TotalPagarSinDescuento,
+                    s.Salida.TotalDescuento,
+                    ProductoSalidas = s.Salida.ProductoSalidas.Select(ps => new
+                    {
+                        ps.Id,
+                        ps.IdSalida,
+                        CategoriaId = ps.IdCategoria,
+                        CategoriaNombre = ps.Categoria != null ? ps.Categoria.Nombre : "Sin categoria",
+                        ProductoId = ps.IdProducto,
+                        ProductoNombre = ps.Producto != null ? ps.Producto.Nombre : "Sin producto",
+                        ps.Precio,
+                        ps.Cantidad,
+                        ps.Descuento,
+                        ps.ValorDescuento,
+                        ps.Total
+                    }).ToList()
+                }).ToList();
+
+                if (resultados == null || resultados.Count == 0)
+                {
+                    return Ok("No existen facturaciones registradas para el dia actual.");
+                }
+
+                return Ok(resultados);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error al consultar las salidas del día actual: " + ex.Message);
+            }
+        }
+
     }
 }

@@ -15,6 +15,10 @@ namespace Inventarios.Server.Models
         public DbSet<ProductoSalida> ProductoSalidas { get; set; }
         public DbSet<Salida> Salidas { get; set; }
         //public DbSet<Reporte> Reportes { get; set; }
+        public DbSet<Empresa> Empresas { get; set; }
+        public DbSet<Notificacion> Notificaciones { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -44,6 +48,14 @@ namespace Inventarios.Server.Models
 
             modelBuilder.Entity<Categoria>()
                .HasIndex(c => c.Nombre)
+               .IsUnique();
+
+            modelBuilder.Entity<Empresa>()
+                .HasIndex(e => e.Usuario)
+                .IsUnique();
+
+            modelBuilder.Entity<Notificacion>()
+               .HasIndex(e => e.Email)
                .IsUnique();
 
             //relaciones del modelo entradas, aca abajo
@@ -327,18 +339,17 @@ namespace Inventarios.Server.Models
 
             Random random = new Random();
             DateTime fechaAleatoria = new DateTime(
-                random.Next(2024, DateTime.Now.Year + 1),  // Año aleatorio entre 2010 y el año actual
+                random.Next(2024, DateTime.Now.Year),  // Año aleatorio entre 2010 y el año actual
                 random.Next(1, 12),                        // Mes aleatorio entre 1 y 12
                 random.Next(1, 28),                        // Día aleatorio entre 1 y 28 (para evitar problemas con febrero)
-                random.Next(0, 24),                        // Hora aleatoria entre 0 y 23
-                random.Next(0, 60),                        // Minuto aleatorio entre 0 y 59
+                random.Next(0, 23),                        // Hora aleatoria entre 0 y 23
+                random.Next(0, 59),                        // Minuto aleatorio entre 0 y 59
                 0);
 
-            //DateTime fechaHoraActual = DateTime.Now;
             //Insertar datos salida
             modelBuilder.Entity<Salida>().HasData(new Salida { Id = 1, FechaFactura = fechaAleatoria, IdCliente = 3, CantidadProductos = 2, TotalPagarConDescuento = 274000, TotalPagarSinDescuento = 300000, TotalDescuento = 26000 });
-            modelBuilder.Entity<ProductoSalida>().HasData(new ProductoSalida { Id = 1, IdSalida = 1, IdCategoria = 3, IdProducto = 3, IdEntrada = 1, Precio = 8000, Cantidad = 5, Descuento = 0, ValorDescuento = 0, Total = 40000 });
-            modelBuilder.Entity<ProductoSalida>().HasData(new ProductoSalida { Id = 2, IdSalida = 1, IdCategoria = 5, IdProducto = 7, IdEntrada = 2, Precio = 2600, Cantidad = 100, Descuento = 10, ValorDescuento = 26000, Total = 234000 });
+            modelBuilder.Entity<ProductoSalida>().HasData(new ProductoSalida { Id = 1, IdSalida = 1, IdCategoria = 6, IdProducto = 11, IdEntrada = 1, Precio = 8000, Cantidad = 5, Descuento = 0, ValorDescuento = 0, Total = 40000 });
+            modelBuilder.Entity<ProductoSalida>().HasData(new ProductoSalida { Id = 2, IdSalida = 1, IdCategoria = 8, IdProducto = 20, IdEntrada = 2, Precio = 200000, Cantidad = 100, Descuento = 10, ValorDescuento = 26000, Total = 234000 });
 
             modelBuilder.Entity<Salida>().HasData(new Salida { Id = 2, FechaFactura = fechaAleatoria, IdCliente = 1, CantidadProductos = 1, TotalPagarConDescuento = 3610000, TotalPagarSinDescuento = 3800000, TotalDescuento = 190000 });
             modelBuilder.Entity<ProductoSalida>().HasData(new ProductoSalida { Id = 3, IdSalida = 2, IdCategoria = 2, IdProducto = 8, IdEntrada = 3, Precio = 190000, Cantidad = 20, Descuento = 5, ValorDescuento = 190000, Total = 3610000 });
