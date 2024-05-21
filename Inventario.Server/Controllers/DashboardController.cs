@@ -244,6 +244,78 @@ namespace Inventarios.Server.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error al calcular el beneficio neto: " + ex.Message);
             }
         }
+        //Nuevas tarjetas
+        [HttpGet]
+        [Route("TarjetaIngresos")]
+        public async Task<ActionResult<decimal>> ConsultarIngresos()
+        {
+            var salida = await _context.Salidas.ToListAsync();
+
+            if (salida == null || !salida.Any())
+            {
+                return NotFound("No existen los datos que buscas");
+            }
+            else
+            {
+                decimal ingresos = salida.Sum(e => e.TotalPagarConDescuento);
+                return Ok(ingresos);
+            }
+        }
+
+        [HttpGet]
+        [Route("TarjetaInversion")]
+        public async Task<ActionResult<decimal>> ConsultarInversion()
+        {
+            var entrada = await _context.Entradas.ToListAsync();
+
+            if (entrada == null || !entrada.Any())
+            {
+                return NotFound("No existen los datos que buscas");
+            }
+            else
+            {
+                decimal inversion = entrada.Sum(e => (e.PrecioCompra * e.ExistenciaInicial));
+                return Ok(inversion);
+            }
+        }
+
+        [HttpGet]
+        [Route("TarjetaMargenUtilidadGlobal")]
+        public async Task<ActionResult<string>> ConsultarMargenUtilidad()
+        {
+            var entrada = await _context.Entradas.ToListAsync();
+
+            var salida = await _context.Salidas.ToArrayAsync(); 
+
+            decimal ingresosTotales = salida.Sum(s => s.TotalPagarConDescuento);
+
+            decimal costosTotales = entrada.Sum(e => e.PrecioCompra * e.ExistenciaInicial);
+
+            decimal utilidadGlobal = ((ingresosTotales - costosTotales)/ingresosTotales) * 100;
+
+            int utilidadGlobalRedondeada = (int)Math.Round(utilidadGlobal);
+
+            string utilidadGlobalFormateada = $"{utilidadGlobalRedondeada}%";
+
+            return Ok(utilidadGlobalFormateada);
+        }
+
+        [HttpGet]
+        [Route("Grafica/UtilidadPorProducto")]
+        public async Task<ActionResult<IEnumerable<string>>> ConsultarUtilidadPorProducto()
+        {
+            var entradas = await _context.Entradas.Include(e => e.Producto).ToListAsync();
+
+            var utilidadesPorProducto = entradas.Select(e => new
+            {
+                NombreProducto = e.Producto != null ? e.Producto.Nombre : "Producto Desconocido",
+                Utilidad = Math.Round(((e.PrecioVenta - e.PrecioCompra) / e.PrecioCompra) * 100, 2)
+            })
+            .Select(up => $"{up.NombreProducto}: {up.Utilidad}%")
+            .ToList();
+
+            return Ok(utilidadesPorProducto);
+        }
 
         [HttpGet("Grafica/ConsultarClienteSalidas")]
         public async Task<ActionResult<IEnumerable<ClienteSalidas>>> ConsultarClienteSalida()
@@ -307,7 +379,7 @@ namespace Inventarios.Server.Controllers
                 .Select(g => new TopProducto
                 {
                     IdProducto = g.Key,
-                    CantidadVentas = g.Sum(ps => ps.Cantidad) // Sumar la cantidad vendida
+                    CantidadVentas = g.Sum(ps => ps.Cantidad)
                 })
                 .OrderByDescending(tp => tp.CantidadVentas)
                 .Take(5)
