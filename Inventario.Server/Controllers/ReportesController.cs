@@ -531,6 +531,186 @@ namespace Inventarios.Server.Controllers
         }
         //FIN
         ///////////////////
+        //NUEVOS
+        [HttpGet("TopProductosMasVendidosEntreDosFechas")]
+        public async Task<ActionResult<IEnumerable<TopProducto>>> ConsultarTopProductosMasVendidos(DateTime fechaInicio, DateTime fechaFinal)
+        {
+            try
+            {
+                fechaInicio = fechaInicio.Date;
+                fechaFinal = fechaFinal.Date.AddDays(1).AddTicks(-1);
+
+                var topProductos = await _context.ProductoSalidas
+                    .Include(ps => ps.Producto)
+                    .Where(ps => ps.Salida.FechaFactura >= fechaInicio && ps.Salida.FechaFactura <= fechaFinal)
+                    .GroupBy(ps => ps.IdProducto)
+                    .Select(g => new TopProducto
+                    {
+                        IdProducto = g.Key,
+                        CantidadVentas = g.Count()
+                    })
+                    .OrderByDescending(tp => tp.CantidadVentas)
+                    .Take(5)
+                    .ToListAsync();
+
+                int contadorTop = 1;
+
+                foreach (var producto in topProductos)
+                {
+                    producto.Top = contadorTop++;
+
+                    var infoProducto = await _context.Productos
+                        .Where(p => p.Id == producto.IdProducto)
+                        .FirstOrDefaultAsync();
+
+                    if (infoProducto != null)
+                    {
+                        producto.NombreProducto = infoProducto.Nombre;
+                    }
+                }
+
+                return topProductos;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error al consultar los productos más vendidos entre las fechas: " + ex.Message);
+            }
+        }
+
+        [HttpGet("TopProductosMasVendidosDiaActual")]
+        public async Task<ActionResult<IEnumerable<TopProducto>>> ConsultarTopProductosMasVendidosDiaActual()
+        {
+            try
+            {
+                DateTime fechaActual = DateTime.Now.Date;
+
+                var topProductos = await _context.ProductoSalidas
+                    .Include(ps => ps.Producto)
+                    .Where(ps => ps.Salida.FechaFactura.Date == fechaActual)
+                    .GroupBy(ps => ps.IdProducto)
+                    .Select(g => new TopProducto
+                    {
+                        IdProducto = g.Key,
+                        CantidadVentas = g.Count()
+                    })
+                    .OrderByDescending(tp => tp.CantidadVentas)
+                    .Take(5)
+                    .ToListAsync();
+
+                int contadorTop = 1;
+
+                foreach (var producto in topProductos)
+                {
+                    producto.Top = contadorTop++;
+
+                    var infoProducto = await _context.Productos
+                        .Where(p => p.Id == producto.IdProducto)
+                        .FirstOrDefaultAsync();
+
+                    if (infoProducto != null)
+                    {
+                        producto.NombreProducto = infoProducto.Nombre;
+                    }
+                }
+
+                return topProductos;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error al consultar los productos más vendidos entre las fechas: " + ex.Message);
+            }
+        }
+
+        [HttpGet("TopProductosMenosVendidosEntreFechas")]
+        public async Task<ActionResult<IEnumerable<TopProducto>>> ConsultarTopProductosMenosVendidos(DateTime fechaInicio, DateTime fechaFinal)
+        {
+            try
+            {
+                fechaInicio = fechaInicio.Date;
+                fechaFinal = fechaFinal.Date.AddDays(1).AddTicks(-1);
+
+                var topProductos = await _context.ProductoSalidas
+                    .Include(ps => ps.Producto)
+                    .Where(ps => ps.Salida.FechaFactura >= fechaInicio && ps.Salida.FechaFactura <= fechaFinal)
+                    .GroupBy(ps => ps.IdProducto)
+                    .Select(g => new TopProducto
+                    {
+                        IdProducto = g.Key,
+                        CantidadVentas = g.Count()
+                    })
+                    .OrderBy(tp => tp.CantidadVentas)
+                    .Take(5)
+                    .ToListAsync();
+
+                int contadorTop = 1;
+
+                foreach (var producto in topProductos)
+                {
+                    producto.Top = contadorTop++;
+
+                    var infoProducto = await _context.Productos
+                        .Where(p => p.Id == producto.IdProducto)
+                        .FirstOrDefaultAsync();
+
+                    if (infoProducto != null)
+                    {
+                        producto.NombreProducto = infoProducto.Nombre;
+                    }
+                }
+
+                return topProductos;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error al consultar los productos menos vendidos entre las fechas: " + ex.Message);
+            }
+        }
+
+        [HttpGet("TopProductosMenosVendidosDiaActual")]
+        public async Task<ActionResult<IEnumerable<TopProducto>>> ConsultarTopProductosMenosVendidosDiaActual()
+        {
+            try
+            {
+                DateTime fechaActual = DateTime.Now.Date;
+
+                var topProductos = await _context.ProductoSalidas
+                    .Include(ps => ps.Producto)
+                    .Where(ps => ps.Salida.FechaFactura.Date == fechaActual)
+                    .GroupBy(ps => ps.IdProducto)
+                    .Select(g => new TopProducto
+                    {
+                        IdProducto = g.Key,
+                        CantidadVentas = g.Count()
+                    })
+                    .OrderBy(tp => tp.CantidadVentas)
+                    .Take(5)
+                    .ToListAsync();
+
+                int contadorTop = 1;
+
+                foreach (var producto in topProductos)
+                {
+                    producto.Top = contadorTop++;
+
+                    var infoProducto = await _context.Productos
+                        .Where(p => p.Id == producto.IdProducto)
+                        .FirstOrDefaultAsync();
+
+                    if (infoProducto != null)
+                    {
+                        producto.NombreProducto = infoProducto.Nombre;
+                    }
+                }
+
+                return topProductos;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error al consultar los productos menos vendidos entre las fechas: " + ex.Message);
+            }
+        }
+        //FIN
+        ///////////////////
 
         //OPCIONALES
         [HttpGet]
@@ -733,6 +913,7 @@ namespace Inventarios.Server.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error al consultar las salidas del día actual: " + ex.Message);
             }
         }
-
+        //FIN
+        ///////////////////
     }
 }

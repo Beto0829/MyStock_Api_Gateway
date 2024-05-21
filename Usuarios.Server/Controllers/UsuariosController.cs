@@ -72,39 +72,55 @@ namespace Usuarios.Server.Controllers
 
         [HttpPut]
         [Route("CambiarPasswordPorEmail")]
-        public async Task<IActionResult> CambiarContraseñaPorEmail(string email, string nuevaContraseña)
+        public async Task<IActionResult> CambiarContraseñaPorEmail(string email, string nuevaContraseña, string viejaContraseña)
         {
             Usuario usuarioExistente = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == email);
 
             if (usuarioExistente == null)
             {
-                return NotFound("No se encontro un usuario con el correo electronico proporcionado.");
+                return NotFound("No se encontro un usuario con el nombre de usuario proporcionado.");
             }
-            else
+            else if (usuarioExistente.Password != viejaContraseña)
+            {
+                return NotFound("No coincide la contraseña antigua");
+            }
+            else if (usuarioExistente.Email == email && usuarioExistente.Password == viejaContraseña)
             {
                 usuarioExistente.Password = nuevaContraseña;
                 await _context.SaveChangesAsync();
 
-                return Ok("Se actualizó la contraseña del usuario " + usuarioExistente.Email + ", exitosamente.");
+                return Ok("Se actualizó la contraseña del usuario " + usuarioExistente.UserName + ", exitosamente.");
+            }
+            else
+            {
+                return NotFound("Ocurrio un error al cambiar la contraseña");
             }
         }
 
         [HttpPut]
         [Route("CambiarPasswordPorUserName")]
-        public async Task<IActionResult> CambiarContraseñaPorUserName(string userName, string nuevaContraseña)
+        public async Task<IActionResult> CambiarContraseñaPorUserName(string userName, string nuevaContraseña, string viejaContraseña)
         {
             Usuario usuarioExistente = await _context.Usuarios.FirstOrDefaultAsync(u => u.UserName == userName);
 
             if (usuarioExistente == null)
             {
                 return NotFound("No se encontro un usuario con el nombre de usuario proporcionado.");
+            } 
+            else if (usuarioExistente.Password != viejaContraseña)
+            {
+                return NotFound("No coincide la contraseña antigua");
             }
-            else
+            else if(usuarioExistente.UserName == userName && usuarioExistente.Password == viejaContraseña)
             {
                 usuarioExistente.Password = nuevaContraseña;
                 await _context.SaveChangesAsync();
 
                 return Ok("Se actualizó la contraseña del usuario " + usuarioExistente.UserName + ", exitosamente.");
+            }
+            else
+            {
+                return NotFound("Ocurrio un error al cambiar la contraseña");
             }
         }
 

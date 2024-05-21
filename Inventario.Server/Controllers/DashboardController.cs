@@ -216,7 +216,6 @@ namespace Inventarios.Server.Controllers
             }
         }
 
-
         [HttpGet]
         [Route("TarjetaBeneficioNeto")]
         public async Task<ActionResult<decimal>> ConsultarBeneficioNeto()
@@ -400,6 +399,23 @@ namespace Inventarios.Server.Controllers
             return salidasPorMes;
         }
 
+        [HttpGet("Grafica/ComprasPorMes")]
+        public ActionResult<IEnumerable<EntradasPorMes>> ConsultarComprasPorMes()
+        {
+            var comprasPorMes = (from mes in Enumerable.Range(1, 12)
+                                 join entrada in _context.Entradas
+                                 on mes equals entrada.FechaEntrada.Month into gj
+                                 from subEntrada in gj.DefaultIfEmpty()
+                                 group subEntrada by mes into g
+                                 select new EntradasPorMes
+                                 {
+                                     Mes = Utilidades.ObtenerNombreMes(g.Key),
+                                     CantidadEntradas = g.Count(e => e != null)
+                                 }).ToList();
+
+            return comprasPorMes;
+        }
+
         [HttpGet("Grafica/GananciaPorProducto")]
         public async Task<ActionResult<IEnumerable<GananciaPorProducto>>> ConsultarGananciaPorProducto()
         {
@@ -465,6 +481,12 @@ namespace Inventarios.Server.Controllers
     {
         public string Mes { get; set; }
         public int CantidadSalidas { get; set; }
+    }
+
+    public class EntradasPorMes
+    {
+        public string Mes { get; set; }
+        public int CantidadEntradas { get; set; }
     }
 
     public class GananciaPorProducto
