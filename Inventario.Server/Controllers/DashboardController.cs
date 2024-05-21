@@ -307,7 +307,7 @@ namespace Inventarios.Server.Controllers
                 .Select(g => new TopProducto
                 {
                     IdProducto = g.Key,
-                    CantidadVentas = g.Count()
+                    CantidadVentas = g.Sum(ps => ps.Cantidad) // Sumar la cantidad vendida
                 })
                 .OrderByDescending(tp => tp.CantidadVentas)
                 .Take(5)
@@ -331,6 +331,7 @@ namespace Inventarios.Server.Controllers
 
             return topProductos;
         }
+
 
         [HttpGet("Grafica/TopProductosMenosVendidos")]
         public async Task<ActionResult<IEnumerable<TopProducto>>> ConsultarTopProductosMenosVendidos()
