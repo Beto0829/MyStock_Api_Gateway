@@ -7,13 +7,15 @@ namespace Inventarios.Server.Models
         public int Id { get; set; }
 
         [MaxLength(255, ErrorMessage = "El campo {0} debe tener maximo {1} caracteres.")]
-        public required string Nombre { get; set; }
+        public string Nombre { get; set; }
 
         [MaxLength(255, ErrorMessage = "El campo {0} debe tener maximo {1} caracteres.")]
-        public required string Direccion { get; set; }
+        public string Direccion { get; set; }
 
-        public required string Telefono { get; set; }
+        [MaxLength(255, ErrorMessage = "El campo {0} debe tener maximo {1} caracteres.")]
+        public string Telefono { get; set; }
 
-        public required string Usuario { get; set; }
+        [MaxLength(255, ErrorMessage = "El campo {0} debe tener maximo {1} caracteres.")]
+        public string Email { get; set; }
     }
 }

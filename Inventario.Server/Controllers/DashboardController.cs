@@ -300,6 +300,8 @@ namespace Inventarios.Server.Controllers
             return Ok(utilidadGlobalFormateada);
         }
 
+        ///Graficas
+
         [HttpGet]
         [Route("Grafica/UtilidadPorProducto")]
         public async Task<ActionResult<IEnumerable<string>>> ConsultarUtilidadPorProducto()
@@ -520,6 +522,41 @@ namespace Inventarios.Server.Controllers
             }
 
             return listaGananciaPorProducto;
+        }
+
+        [HttpGet("Grafica/TodosLosProductosConVentas")]
+        public async Task<ActionResult<IEnumerable<TopProducto>>> ConsultarTodosLosProductosConVentas()
+        {
+            // Obtiene todos los productos desde las entradas
+            var productos = await _context.Entradas
+                .Select(e => new
+                {
+                    e.IdProducto,
+                    e.Producto.Nombre,
+                    CantidadVentas = e.ExistenciaInicial - e.ExistenciaActual
+                })
+                .ToListAsync();
+
+            // Agrupa por producto para sumar las ventas
+            var productosAgrupados = productos
+                .GroupBy(p => new { p.IdProducto, p.Nombre })
+                .Select(g => new TopProducto
+                {
+                    IdProducto = g.Key.IdProducto,
+                    NombreProducto = g.Key.Nombre,
+                    CantidadVentas = g.Sum(p => p.CantidadVentas)
+                })
+                .OrderByDescending(tp => tp.CantidadVentas)
+                .ToList();
+
+            // Asigna el ranking
+            int contadorTop = 1;
+            foreach (var producto in productosAgrupados)
+            {
+                producto.Top = contadorTop++;
+            }
+
+            return productosAgrupados;
         }
 
     }

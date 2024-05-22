@@ -51,7 +51,7 @@ namespace Inventarios.Server.Models
                .IsUnique();
 
             modelBuilder.Entity<Empresa>()
-                .HasIndex(e => e.Usuario)
+                .HasIndex(e => e.Email)
                 .IsUnique();
 
             modelBuilder.Entity<Notificacion>()

@@ -37,19 +37,19 @@ namespace Inventarios.Server.Controllers
         public async Task<ActionResult<IEnumerable<Empresa>>> FiltarPorUsuario(string email)
         {
             var empresa = await _context.Empresas
-                .Where(p => p.Usuario == email)
+                .Where(p => p.Email == email)
                         .Select(p => new {
                             p.Id,
                             p.Nombre,
                             p.Telefono,
                             p.Direccion,
-                            p.Usuario
+                            p.Email
                         })
                 .ToListAsync();
 
             if (empresa == null || empresa.Count == 0)
             {
-                return NotFound("No se encontraron existencias para la categoría especificada.");
+                return NotFound("No se encontraron empresa especificada.");
             }
             else
             {
@@ -62,7 +62,8 @@ namespace Inventarios.Server.Controllers
         [Route("Actualizar")]
         public async Task<IActionResult> Actualizar(string email, Empresa empresa)
         {
-            var empresaExistente = await _context.Empresas.FindAsync(email);
+            var empresaExistente = await _context.Empresas.FirstOrDefaultAsync(e => e.Email == email);
+
 
             if (empresaExistente == null)
             {
@@ -70,6 +71,11 @@ namespace Inventarios.Server.Controllers
             }
             else
             {
+                if (empresaExistente.Email != email)
+                {
+                    return BadRequest("El email no coincide con el usuario de la empresa");
+                }
+
                 empresaExistente!.Nombre = empresa.Nombre;
                 empresaExistente!.Direccion = empresa.Direccion;
                 empresaExistente!.Telefono = empresa.Telefono;
