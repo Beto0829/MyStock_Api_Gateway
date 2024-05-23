@@ -244,7 +244,9 @@ namespace Inventarios.Server.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error al calcular el beneficio neto: " + ex.Message);
             }
         }
+
         //Nuevas tarjetas
+
         [HttpGet]
         [Route("TarjetaIngresos")]
         public async Task<ActionResult<decimal>> ConsultarIngresos()
@@ -373,40 +375,6 @@ namespace Inventarios.Server.Controllers
             return productosCategorias;
         }
 
-        [HttpGet("Grafica/TopProductosMasVendidos")]
-        public async Task<ActionResult<IEnumerable<TopProducto>>> ConsultarTopProductosMasVendidos()
-        {
-            var topProductos = await _context.ProductoSalidas
-                .GroupBy(ps => ps.IdProducto)
-                .Select(g => new TopProducto
-                {
-                    IdProducto = g.Key,
-                    CantidadVentas = g.Sum(ps => ps.Cantidad)
-                })
-                .OrderByDescending(tp => tp.CantidadVentas)
-                .Take(5)
-                .ToListAsync();
-
-            int contadorTop = 1;
-
-            foreach (var producto in topProductos)
-            {
-                producto.Top = contadorTop++;
-
-                var infoProducto = await _context.Productos
-                    .Where(p => p.Id == producto.IdProducto)
-                    .FirstOrDefaultAsync();
-
-                if (infoProducto != null)
-                {
-                    producto.NombreProducto = infoProducto.Nombre;
-                }
-            }
-
-            return topProductos;
-        }
-
-
         [HttpGet("Grafica/TopProductosMenosVendidos")]
         public async Task<ActionResult<IEnumerable<TopProducto>>> ConsultarTopProductosMenosVendidos()
         {
@@ -456,6 +424,8 @@ namespace Inventarios.Server.Controllers
 
             return mesesConSalidas;
         }
+
+        //se van a usar estas
 
         [HttpGet("Grafica/VentasPorMes")]
         public ActionResult<IEnumerable<SalidasPorMes>> ConsultarSalidasPorMes()
@@ -527,7 +497,6 @@ namespace Inventarios.Server.Controllers
         [HttpGet("Grafica/TodosLosProductosConVentas")]
         public async Task<ActionResult<IEnumerable<TopProducto>>> ConsultarTodosLosProductosConVentas()
         {
-            // Obtiene todos los productos desde las entradas
             var productos = await _context.Entradas
                 .Select(e => new
                 {
@@ -537,7 +506,6 @@ namespace Inventarios.Server.Controllers
                 })
                 .ToListAsync();
 
-            // Agrupa por producto para sumar las ventas
             var productosAgrupados = productos
                 .GroupBy(p => new { p.IdProducto, p.Nombre })
                 .Select(g => new TopProducto
@@ -549,7 +517,6 @@ namespace Inventarios.Server.Controllers
                 .OrderByDescending(tp => tp.CantidadVentas)
                 .ToList();
 
-            // Asigna el ranking
             int contadorTop = 1;
             foreach (var producto in productosAgrupados)
             {
@@ -559,6 +526,71 @@ namespace Inventarios.Server.Controllers
             return productosAgrupados;
         }
 
+        [HttpGet("Grafica/TopProductosMasVendidos")]
+        public async Task<ActionResult<IEnumerable<TopProducto>>> ConsultarTopProductosMasVendidos()
+        {
+            var topProductos = await _context.ProductoSalidas
+                .GroupBy(ps => ps.IdProducto)
+                .Select(g => new TopProducto
+                {
+                    IdProducto = g.Key,
+                    CantidadVentas = g.Sum(ps => ps.Cantidad)
+                })
+                .OrderByDescending(tp => tp.CantidadVentas)
+                .Take(5)
+                .ToListAsync();
+
+            int contadorTop = 1;
+
+            foreach (var producto in topProductos)
+            {
+                producto.Top = contadorTop++;
+
+                var infoProducto = await _context.Productos
+                    .Where(p => p.Id == producto.IdProducto)
+                    .FirstOrDefaultAsync();
+
+                if (infoProducto != null)
+                {
+                    producto.NombreProducto = infoProducto.Nombre;
+                }
+            }
+
+            return topProductos;
+        }
+
+        [HttpGet("Grafica/TopMejoresClientes")]
+        public async Task<ActionResult<IEnumerable<TopClientes>>> TopMejoresClientes()
+        {
+            var topClientes = await _context.Salidas
+                .GroupBy(s => s.IdCliente)
+                .Select(g => new TopClientes
+                {
+                    IdCliente = g.Key,
+                    CantidadCompras = g.Count()
+                })
+                .OrderByDescending(tp => tp.CantidadCompras)
+                .Take(5)
+                .ToListAsync();
+
+            int contadorTop = 1;
+
+            foreach (var cliente in topClientes)
+            {
+                cliente.Top = contadorTop++;
+
+                var infoCliente = await _context.Clientes
+                    .Where(c => c.Id == cliente.IdCliente)
+                    .FirstOrDefaultAsync();
+
+                if (infoCliente != null)
+                {
+                    cliente.NombreCliente = infoCliente.Nombre;
+                }
+            }
+
+            return topClientes;
+        }
     }
     public class ClienteSalidas
     {
@@ -579,6 +611,14 @@ namespace Inventarios.Server.Controllers
         public int IdProducto { get; set; }
         public string NombreProducto { get; set; }
         public int CantidadVentas { get; set; }
+    }
+
+    public class TopClientes
+    {
+        public int Top { get; set; }
+        public int IdCliente { get; set; }
+        public string NombreCliente { get; set; }
+        public int CantidadCompras { get; set; }
     }
 
     public class TopMeses
