@@ -727,7 +727,6 @@ namespace Inventarios.Server.Controllers
                     .Include(ps => ps.Producto)
                     .Where(ps => ps.Salida.FechaFactura.Date == fechaActual);
 
-                // Aplicar filtros opcionales
                 if (idCategoria.HasValue)
                 {
                     query = query.Where(ps => ps.IdCategoria == idCategoria.Value);
@@ -796,8 +795,6 @@ namespace Inventarios.Server.Controllers
                          .Include(e => e.Proveedor)
                          .Where(e => e.FechaEntrada.Date == fechaActual);
 
-
-                // Aplicar filtros opcionales
                 if (idCategoria.HasValue)
                 {
                     query = query.Where(e => e.IdCategoria == idCategoria.Value);
@@ -858,8 +855,6 @@ namespace Inventarios.Server.Controllers
                    .Include(ps => ps.Producto)
                    .Where(ps => ps.Salida.FechaFactura.Date == fechaActual);
 
-
-                // Aplicar filtros opcionales
                 if (idCategoria.HasValue)
                 {
                     query = query.Where(e => e.IdCategoria == idCategoria.Value);
@@ -913,6 +908,206 @@ namespace Inventarios.Server.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error al consultar las salidas del día actual: " + ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("ProductosVendidosEntreFechasOpcional")]
+        public async Task<ActionResult<IEnumerable<object>>> ConsultaProductosVendidosEntreFechasOpcional(DateTime fechaInicio, DateTime fechaFinal, int? idCategoria = null, int? idProducto = null, int? idCliente = null)
+        {
+            try
+            {
+                fechaInicio = fechaInicio.Date;
+                fechaFinal = fechaFinal.Date.AddDays(1).AddTicks(-1);
+
+                var query = _context.ProductoSalidas
+                    .Include(ps => ps.Salida)
+                    .Include(ps => ps.Categoria)
+                    .Include(ps => ps.Producto)
+                    .Where(ps => ps.Salida.FechaFactura >= fechaInicio && ps.Salida.FechaFactura <= fechaFinal);
+
+                if (idCategoria.HasValue)
+                {
+                    query = query.Where(ps => ps.IdCategoria == idCategoria.Value);
+                }
+
+                if (idProducto.HasValue)
+                {
+                    query = query.Where(ps => ps.IdProducto == idProducto.Value);
+                }
+
+                if (idCliente.HasValue)
+                {
+                    query = query.Where(ps => ps.Salida.IdCliente == idCliente.Value);
+                }
+
+                var resultados = await query.Select(s => new
+                {
+                    s.Salida.Id,
+                    s.Salida.FechaFactura,
+                    ClienteId = s.Salida.IdCliente,
+                    ClienteNombre = s.Salida.Cliente != null ? s.Salida.Cliente.Nombre : "Sin cliente",
+                    s.Salida.CantidadProductos,
+                    s.Salida.TotalPagarConDescuento,
+                    s.Salida.TotalPagarSinDescuento,
+                    s.Salida.TotalDescuento,
+                    ProductoSalidas = s.Salida.ProductoSalidas.Select(ps => new
+                    {
+                        ps.Id,
+                        ps.IdSalida,
+                        CategoriaId = ps.IdCategoria,
+                        CategoriaNombre = ps.Categoria != null ? ps.Categoria.Nombre : "Sin categoria",
+                        ProductoId = ps.IdProducto,
+                        ProductoNombre = ps.Producto != null ? ps.Producto.Nombre : "Sin producto",
+                        ps.Precio,
+                        ps.Cantidad,
+                        ps.Descuento,
+                        ps.ValorDescuento,
+                        ps.Total
+                    }).ToList()
+                }).ToListAsync();
+
+                if (resultados == null || resultados.Count == 0)
+                {
+                    return Ok("No existen productos vendidos en el rango de fechas especificado.");
+                }
+
+                return Ok(resultados);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error al consultar los productos vendidos entre las fechas: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("ComprasEntreFechasOpcional")]
+        public async Task<ActionResult<IEnumerable<object>>> ConsultarComprasEntreFechasOpcional(DateTime fechaInicio, DateTime fechaFinal, int? idCategoria = null, int? idProducto = null, int? idProveedor = null)
+        {
+            try
+            {
+                fechaInicio = fechaInicio.Date;
+                fechaFinal = fechaFinal.Date.AddDays(1).AddTicks(-1);
+
+                var query = _context.Entradas
+                    .Include(e => e.Categoria)
+                    .Include(e => e.Producto)
+                    .Include(e => e.Proveedor)
+                    .Where(e => e.FechaEntrada >= fechaInicio && e.FechaEntrada <= fechaFinal);
+
+                if (idCategoria.HasValue)
+                {
+                    query = query.Where(e => e.IdCategoria == idCategoria.Value);
+                }
+
+                if (idProducto.HasValue)
+                {
+                    query = query.Where(e => e.IdProducto == idProducto.Value);
+                }
+
+                if (idProveedor.HasValue)
+                {
+                    query = query.Where(e => e.IdProveedor == idProveedor.Value);
+                }
+
+                var entradas = await query.Select(p => new
+                {
+                    p.Id,
+                    p.IdCategoria,
+                    NombreCategoria = p.Categoria != null ? p.Categoria.Nombre : "Sin categoria",
+                    p.IdProducto,
+                    NombreProducto = p.Producto != null ? p.Producto.Nombre : "Sin producto",
+                    p.IdProveedor,
+                    NombreProveedor = p.Proveedor != null ? p.Proveedor.Nombre : "Sin proveedor",
+                    p.ExistenciaInicial,
+                    p.ExistenciaActual,
+                    p.PrecioCompra,
+                    p.PrecioVenta,
+                    p.Nota,
+                    FechaEntrada = p.FechaEntrada.ToString("dd/MM/yy HH:mm"),
+                    p.Estado
+                }).ToListAsync();
+
+                if (entradas == null || entradas.Count == 0)
+                {
+                    return Ok("No existen compras registradas para el rango de fechas especificado.");
+                }
+
+                return Ok(entradas);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error al consultar las compras entre las fechas especificadas: " + ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("VentasEntreFechasOpcional")]
+        public async Task<ActionResult<IEnumerable<object>>> ConsultarVentasEntreFechasOpcional(DateTime fechaInicio, DateTime fechaFinal, int? idCategoria = null, int? idProducto = null, int? idCliente = null)
+        {
+            try
+            {
+                fechaInicio = fechaInicio.Date;
+                fechaFinal = fechaFinal.Date.AddDays(1).AddTicks(-1);
+
+                var query = _context.ProductoSalidas
+                    .Include(ps => ps.Salida)
+                    .Include(ps => ps.Categoria)
+                    .Include(ps => ps.Producto)
+                    .Where(ps => ps.Salida.FechaFactura >= fechaInicio && ps.Salida.FechaFactura <= fechaFinal);
+
+                if (idCategoria.HasValue)
+                {
+                    query = query.Where(ps => ps.IdCategoria == idCategoria.Value);
+                }
+
+                if (idProducto.HasValue)
+                {
+                    query = query.Where(ps => ps.IdProducto == idProducto.Value);
+                }
+
+                if (idCliente.HasValue)
+                {
+                    query = query.Where(ps => ps.Salida.IdCliente == idCliente.Value);
+                }
+
+                var resultados = await query.Select(s => new
+                {
+                    s.Salida.Id,
+                    s.Salida.FechaFactura,
+                    ClienteId = s.Salida.IdCliente,
+                    ClienteNombre = s.Salida.Cliente != null ? s.Salida.Cliente.Nombre : "Sin cliente",
+                    s.Salida.CantidadProductos,
+                    s.Salida.TotalPagarConDescuento,
+                    s.Salida.TotalPagarSinDescuento,
+                    s.Salida.TotalDescuento,
+                    ProductoSalidas = s.Salida.ProductoSalidas.Select(ps => new
+                    {
+                        ps.Id,
+                        ps.IdSalida,
+                        CategoriaId = ps.IdCategoria,
+                        CategoriaNombre = ps.Categoria != null ? ps.Categoria.Nombre : "Sin categoria",
+                        ProductoId = ps.IdProducto,
+                        ProductoNombre = ps.Producto != null ? ps.Producto.Nombre : "Sin producto",
+                        ps.Precio,
+                        ps.Cantidad,
+                        ps.Descuento,
+                        ps.ValorDescuento,
+                        ps.Total
+                    }).ToList()
+                }).ToListAsync();
+
+                if (resultados == null || resultados.Count == 0)
+                {
+                    return Ok("No existen facturaciones registradas para el rango de fechas especificado.");
+                }
+
+                return Ok(resultados);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error al consultar las ventas entre las fechas especificadas: " + ex.Message);
+            }
+        }
+
         //FIN
         ///////////////////
     }

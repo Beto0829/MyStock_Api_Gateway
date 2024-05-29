@@ -37,6 +37,33 @@ namespace Inventarios.Server.Controllers
             return Ok("Se guardo exitosamente");
         }
 
+        [HttpGet]
+        [Route("Filtrar/NotificacionUsuario")]
+        public async Task<ActionResult<IEnumerable<Notificacion>>> FiltarPorUsuario(string email)
+        {
+            var notificacion = await _context.Notificaciones
+                .Where(p => p.Email == email)
+                        .Select(p => new {
+                            p.Id,
+                            p.Titulo,
+                            p.Cuerpo,
+                            p.Fecha,
+                            p.Estado,
+                            p.Email
+                        })
+                .ToListAsync();
+
+            if (notificacion == null || notificacion.Count == 0)
+            {
+                return NotFound("No se encontraron empresa especificada.");
+            }
+            else
+            {
+
+                return Ok(notificacion);
+            }
+        }
+
         [HttpPut]
         [Route("ActualizarEstado")]
         public async Task<IActionResult> ActualizarEstadoEntradas(int id, string email)
