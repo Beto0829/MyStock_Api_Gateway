@@ -54,10 +54,6 @@ namespace Inventarios.Server.Models
                 .HasIndex(e => e.Email)
                 .IsUnique();
 
-            modelBuilder.Entity<Notificacion>()
-               .HasIndex(e => e.Email)
-               .IsUnique();
-
             //relaciones del modelo entradas, aca abajo
 
             modelBuilder.Entity<Entrada>()
@@ -324,16 +320,16 @@ namespace Inventarios.Server.Models
             modelBuilder.Entity<Entrada>().HasData(new Entrada { Id = 22, IdCategoria = 19, IdProducto = 66, IdProveedor = 18, PrecioCompra = 400000, PrecioVenta = 470000, ExistenciaInicial = 30, ExistenciaActual = 30, Nota = "", FechaEntrada = RandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 5, 12)), Estado = "Activo" });
             modelBuilder.Entity<Entrada>().HasData(new Entrada { Id = 23, IdCategoria = 19, IdProducto = 67, IdProveedor = 18, PrecioCompra = 20000, PrecioVenta = 32000, ExistenciaInicial = 15, ExistenciaActual = 15, Nota = "", FechaEntrada = RandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 5, 12)), Estado = "Activo" });
             modelBuilder.Entity<Entrada>().HasData(new Entrada { Id = 24, IdCategoria = 20, IdProducto = 73, IdProveedor = 19, PrecioCompra = 267000, PrecioVenta = 450000, ExistenciaInicial = 20, ExistenciaActual = 20, Nota = "", FechaEntrada = RandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 5, 12)), Estado = "Activo" });
-            modelBuilder.Entity<Entrada>().HasData(new Entrada { Id = 25, IdCategoria = 21, IdProducto = 75, IdProveedor = 20, PrecioCompra = 800000, PrecioVenta = 1700000, ExistenciaInicial = 105, ExistenciaActual = 0, Nota = "", FechaEntrada = RandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 5, 12)), Estado = "Activo" });
+            modelBuilder.Entity<Entrada>().HasData(new Entrada { Id = 25, IdCategoria = 21, IdProducto = 75, IdProveedor = 20, PrecioCompra = 800000, PrecioVenta = 1100000, ExistenciaInicial = 105, ExistenciaActual = 0, Nota = "", FechaEntrada = RandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 5, 12)), Estado = "Activo" });
             modelBuilder.Entity<Entrada>().HasData(new Entrada { Id = 26, IdCategoria = 21, IdProducto = 77, IdProveedor = 20, PrecioCompra = 125000, PrecioVenta = 230000, ExistenciaInicial = 11, ExistenciaActual = 11, Nota = "", FechaEntrada = RandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 5, 12)), Estado = "Activo" });
             modelBuilder.Entity<Entrada>().HasData(new Entrada { Id = 27, IdCategoria = 21, IdProducto = 78, IdProveedor = 20, PrecioCompra = 70000, PrecioVenta = 130000, ExistenciaInicial = 70, ExistenciaActual = 10, Nota = "", FechaEntrada = RandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 5, 12)), Estado = "Activo" });
             modelBuilder.Entity<Entrada>().HasData(new Entrada { Id = 28, IdCategoria = 22, IdProducto = 80, IdProveedor = 21, PrecioCompra = 90000, PrecioVenta = 136000, ExistenciaInicial = 42, ExistenciaActual = 42, Nota = "", FechaEntrada = RandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 5, 12)), Estado = "Activo" });
             modelBuilder.Entity<Entrada>().HasData(new Entrada { Id = 29, IdCategoria = 23, IdProducto = 81, IdProveedor = 22, PrecioCompra = 1800000, PrecioVenta = 2780000, ExistenciaInicial = 22, ExistenciaActual = 22, Nota = "", FechaEntrada = RandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 5, 12)), Estado = "Activo" });
-            modelBuilder.Entity<Entrada>().HasData(new Entrada { Id = 30, IdCategoria = 24, IdProducto = 84, IdProveedor = 23, PrecioCompra = 270000, PrecioVenta = 400000, ExistenciaInicial = 70, ExistenciaActual = 4, Nota = "", FechaEntrada = RandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 5, 12)), Estado = "Activo" });
-            modelBuilder.Entity<Entrada>().HasData(new Entrada { Id = 31, IdCategoria = 25, IdProducto = 87, IdProveedor = 24, PrecioCompra = 2000000, PrecioVenta = 2800000, ExistenciaInicial = 50, ExistenciaActual = 12, Nota = "", FechaEntrada = RandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 5, 12)), Estado = "Activo" });
-            modelBuilder.Entity<Entrada>().HasData(new Entrada { Id = 32, IdCategoria = 25, IdProducto = 88, IdProveedor = 24, PrecioCompra = 2300000, PrecioVenta = 2900000, ExistenciaInicial = 16, ExistenciaActual = 12, Nota = "", FechaEntrada = RandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 5, 12)), Estado = "Activo" });
-            modelBuilder.Entity<Entrada>().HasData(new Entrada { Id = 33, IdCategoria = 25, IdProducto = 89, IdProveedor = 24, PrecioCompra = 800000, PrecioVenta = 1400000, ExistenciaInicial = 35, ExistenciaActual = 2, Nota = "", FechaEntrada = RandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 5, 12)), Estado = "Activo" });
-            modelBuilder.Entity<Entrada>().HasData(new Entrada { Id = 34, IdCategoria = 25, IdProducto = 85, IdProveedor = 24, PrecioCompra = 2400000, PrecioVenta = 3800000, ExistenciaInicial = 27, ExistenciaActual = 10, Nota = "", FechaEntrada = RandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 5, 12)), Estado = "Activo" });
+            modelBuilder.Entity<Entrada>().HasData(new Entrada { Id = 30, IdCategoria = 24, IdProducto = 84, IdProveedor = 23, PrecioCompra = 270000, PrecioVenta = 400000, ExistenciaInicial = 70, ExistenciaActual = 1, Nota = "", FechaEntrada = RandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 5, 12)), Estado = "Activo" });
+            modelBuilder.Entity<Entrada>().HasData(new Entrada { Id = 31, IdCategoria = 25, IdProducto = 87, IdProveedor = 24, PrecioCompra = 2000000, PrecioVenta = 2800000, ExistenciaInicial = 50, ExistenciaActual = 2, Nota = "", FechaEntrada = RandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 5, 12)), Estado = "Activo" });
+            modelBuilder.Entity<Entrada>().HasData(new Entrada { Id = 32, IdCategoria = 25, IdProducto = 88, IdProveedor = 24, PrecioCompra = 2300000, PrecioVenta = 2900000, ExistenciaInicial = 16, ExistenciaActual = 5, Nota = "", FechaEntrada = RandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 5, 12)), Estado = "Activo" });
+            modelBuilder.Entity<Entrada>().HasData(new Entrada { Id = 33, IdCategoria = 25, IdProducto = 89, IdProveedor = 24, PrecioCompra = 800000, PrecioVenta = 1400000, ExistenciaInicial = 35, ExistenciaActual = 0, Nota = "", FechaEntrada = RandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 5, 12)), Estado = "Activo" });
+            modelBuilder.Entity<Entrada>().HasData(new Entrada { Id = 34, IdCategoria = 25, IdProducto = 85, IdProveedor = 24, PrecioCompra = 2400000, PrecioVenta = 3800000, ExistenciaInicial = 27, ExistenciaActual = 4, Nota = "", FechaEntrada = RandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 5, 12)), Estado = "Activo" });
             modelBuilder.Entity<Entrada>().HasData(new Entrada { Id = 35, IdCategoria = 5, IdProducto = 5, IdProveedor = 4, PrecioCompra = 1800, PrecioVenta = 3500, ExistenciaInicial = 21, ExistenciaActual = 1, Nota = "", FechaEntrada = RandomDate(new DateTime(2024, 1, 1), new DateTime(2024, 5, 12)), Estado = "Activo" });
 
 
@@ -460,6 +456,17 @@ namespace Inventarios.Server.Models
 
             modelBuilder.Entity<Salida>().HasData(new Salida { Id = 30, FechaFactura = fechaAleatoria, IdCliente = 11, CantidadProductos = 1, TotalPagarConDescuento = 1748000, TotalPagarSinDescuento = 1840000, TotalDescuento = 92000 });
             modelBuilder.Entity<ProductoSalida>().HasData(new ProductoSalida { Id = 54, IdSalida = 30, IdCategoria = 18, IdProducto = 63, IdEntrada = 21, Precio = 80000, Cantidad = 23, Descuento = 5, ValorDescuento = 92000, Total = 1748000 });
+
+            //new
+            modelBuilder.Entity<Salida>().HasData(new Salida { Id = 31, FechaFactura = fechaAleatoria, IdCliente = 4, CantidadProductos = 3, TotalPagarConDescuento = 71100000, TotalPagarSinDescuento = 71100000, TotalDescuento = 0 });
+            modelBuilder.Entity<ProductoSalida>().HasData(new ProductoSalida { Id = 55, IdSalida = 31, IdCategoria = 25, IdProducto = 85, IdEntrada = 34, Precio = 3800000, Cantidad = 6, Descuento = 0, ValorDescuento = 0, Total = 22800000 });
+            modelBuilder.Entity<ProductoSalida>().HasData(new ProductoSalida { Id = 56, IdSalida = 31, IdCategoria = 25, IdProducto = 87, IdEntrada = 31, Precio = 2800000, Cantidad = 10, Descuento = 0, ValorDescuento = 0, Total = 28000000 });
+            modelBuilder.Entity<ProductoSalida>().HasData(new ProductoSalida { Id = 57, IdSalida = 31, IdCategoria = 25, IdProducto = 88, IdEntrada = 32, Precio = 2900000, Cantidad = 7, Descuento = 0, ValorDescuento = 0, Total = 20300000 });
+
+
+            modelBuilder.Entity<Salida>().HasData(new Salida { Id = 32, FechaFactura = fechaAleatoria, IdCliente = 6, CantidadProductos = 2, TotalPagarConDescuento = 97700000, TotalPagarSinDescuento = 97700000, TotalDescuento = 0 });
+            modelBuilder.Entity<ProductoSalida>().HasData(new ProductoSalida { Id = 58, IdSalida = 32, IdCategoria = 24, IdProducto = 84, IdEntrada = 30, Precio = 480000, Cantidad = 3, Descuento = 0, ValorDescuento = 0, Total = 1440000 });
+            modelBuilder.Entity<ProductoSalida>().HasData(new ProductoSalida { Id = 59, IdSalida = 32, IdCategoria = 25, IdProducto = 89, IdEntrada = 33, Precio = 1400000, Cantidad = 2, Descuento = 0, ValorDescuento = 0, Total = 2800000 });
 
             ////Insertar datos Reporte
             //modelBuilder.Entity<Reporte>().HasData(new Reporte { Id = 1, Nombre = "Reporte general de ventas", Descripcion = "Reporte general de las ventas" });
