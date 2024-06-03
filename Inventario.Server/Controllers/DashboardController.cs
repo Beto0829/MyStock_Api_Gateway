@@ -481,7 +481,7 @@ namespace Inventarios.Server.Controllers
             {
                 var producto = await _context.Productos.FindAsync(gananciaPorProducto.IdProducto);
 
-                decimal ganancia = producto != null ? (gananciaPorProducto.PrecioVenta - gananciaPorProducto.PrecioCompra) * gananciaPorProducto.Cantidad : 0;
+                decimal ganancia = producto != null ? (gananciaPorProducto.PrecioVenta - gananciaPorProducto.PrecioCompra) : 0;
 
                 listaGananciaPorProducto.Add(new GananciaPorProducto
                 {
