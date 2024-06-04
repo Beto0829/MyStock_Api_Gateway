@@ -82,5 +82,101 @@ namespace Inventarios.Server.Controllers
                 return Ok("Ya fue leida la notificacion");
             }
         }
+
+        [HttpPost]
+        [Route("GenerarNotificacionesBajoInventario")]
+        public async Task<IActionResult> GenerarNotificacionesBajoInventario(string email)
+        {
+            var entradas = await _context.Entradas
+                .Where(e => e.ExistenciaActual > 0 && e.ExistenciaActual < 0.2 * e.ExistenciaInicial)
+                .Select(e => new
+                {
+                    e.Id,
+                    e.Producto.Nombre,
+                    e.ExistenciaInicial,
+                    e.ExistenciaActual
+                })
+                .ToListAsync();
+
+            var notificaciones = entradas.Select(e => new Notificacion
+            {
+                Titulo = "Bajo Inventario",
+                Cuerpo = $"El producto {e.Nombre} tiene un inventario bajo. Existencia actual: {e.ExistenciaActual}",
+                Fecha = DateTime.Now,
+                Estado = false,
+                Email = email
+            }).ToList();
+
+            await _context.Notificaciones.AddRangeAsync(notificaciones);
+            await _context.SaveChangesAsync();
+
+            return Ok("Notificaciones generadas exitosamente");
+        }
+
+        [HttpPost]
+        [Route("GenerarNotificacionesInventarioAgotado")]
+        public async Task<IActionResult> GenerarNotificacionesInventarioAgotado(string email)
+        {
+            var entradas = await _context.Entradas
+                .Where(e => e.ExistenciaActual == 0)
+                .Select(e => new
+                {
+                    e.Id,
+                    e.Producto.Nombre,
+                    e.ExistenciaInicial,
+                    e.ExistenciaActual
+                })
+                .ToListAsync();
+
+            var notificaciones = entradas.Select(e => new Notificacion
+            {
+                Titulo = "Inventario Agotado",
+                Cuerpo = $"El producto {e.Nombre} está agotado. Existencia actual: {e.ExistenciaActual}",
+                Fecha = DateTime.Now,
+                Estado = false,
+                Email = email
+            }).ToList();
+
+            await _context.Notificaciones.AddRangeAsync(notificaciones);
+            await _context.SaveChangesAsync();
+
+            return Ok("Notificaciones generadas exitosamente");
+        }
+
+        [HttpPost]
+        [Route("GenerarNotificacionesCompras")]
+        public async Task<IActionResult> GenerarNotificacionesCompras(Notificacion notificacion, string email, string id, string nombre, double precio, string nombreProveedor)
+        {
+            var fecha = DateTime.Now;
+            fecha.ToString("dd/MM/yy HH:mm");
+
+            notificacion.Titulo = "Compra creada exitosamente";
+            notificacion.Cuerpo = $"Se realizo una compra con id {id} al producto {nombre}, con un precio total de {precio} y al proveedor {nombreProveedor} en la fecha {fecha}.";
+            notificacion.Estado = false;
+            notificacion.Email = email;
+
+            await _context.Notificaciones.AddAsync(notificacion);
+            await _context.SaveChangesAsync();
+
+            return Ok("Notificaciones generadas exitosamente");
+        }
+
+        [HttpPost]
+        [Route("GenerarNotificacionesVentas")]
+        public async Task<IActionResult> GenerarNotificacionesVentas(Notificacion notificacion, string email, string id, string nombreCliente, double precioTotal, double cantidadProductos)
+        {
+            var fecha = DateTime.Now;
+            fecha.ToString("dd/MM/yy HH:mm");
+
+            notificacion.Titulo = "Compra creada exitosamente";
+            notificacion.Cuerpo = $"Se realizo una venta con un id {id} a nombre del cliente {nombreCliente}, con un precio total de {precioTotal} y una cantidad total de {cantidadProductos} en la fecha {fecha}.";
+            notificacion.Estado = false;
+            notificacion.Email = email;
+
+            await _context.Notificaciones.AddAsync(notificacion);
+            await _context.SaveChangesAsync();
+
+            return Ok("Notificaciones generadas exitosamente");
+        }
     }
 }
